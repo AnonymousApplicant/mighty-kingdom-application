@@ -42,7 +42,7 @@ public class PoolManager : MonoBehaviour
         }
     }
 
-    void Start()
+    void OnEnable()
     {
         pooledObjects = new Dictionary<string, List<GameObject>>();
         foreach (ObjectPoolItem item in itemsToPool)
@@ -51,9 +51,7 @@ public class PoolManager : MonoBehaviour
             {
                 for (int i = 0; i < item.amountToPool; i++)
                 {
-                    List<GameObject> tempList = new List<GameObject>();
-                    pooledObjects.TryGetValue(item.poolKey, out tempList);
-                    if (tempList == null) tempList = new List<GameObject>();
+                    List<GameObject> tempList = GetTempList(item.poolKey);
                     GameObject obj = Instantiate(item.objectToPool);
                     obj.SetActive(false);
                     tempList.Add(obj);
@@ -63,14 +61,12 @@ public class PoolManager : MonoBehaviour
             }
             else if (item.objectsToPool.Count != 0)
             {
-                foreach (GameObject obj in item.objectsToPool)
+                foreach (GameObject go in item.objectsToPool)
                 {
                     for (int i = 0; i < item.amountToPool; i++)
                     {
-                        List<GameObject> tempList = new List<GameObject>();
-                        pooledObjects.TryGetValue(item.poolKey, out tempList);
-                        if (tempList == null) tempList = new List<GameObject>();
-                        Instantiate(obj);
+                        List<GameObject> tempList = GetTempList(item.poolKey);
+                        GameObject obj = Instantiate(go);
                         obj.SetActive(false);
                         tempList.Add(obj);
                         pooledObjects.Remove(item.poolKey);
@@ -82,18 +78,17 @@ public class PoolManager : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        GameObject temp = GetPooledObject("Coins");
-        if (temp == null) return;
-        temp.SetActive(true);
-        Debug.Log(temp.name);
-    }
-
-    public GameObject GetPooledObject(string key)
+    List<GameObject> GetTempList(string poolKey)
     {
         List<GameObject> tempList = new List<GameObject>();
-        pooledObjects.TryGetValue(key, out tempList);
+        pooledObjects.TryGetValue(poolKey, out tempList);
+        if (tempList == null) tempList = new List<GameObject>();
+        return tempList;
+    }
+
+    public GameObject GetPooledObject(string poolKey)
+    {
+        List<GameObject> tempList = GetTempList(poolKey);
 
         for (int i = 0; i < tempList.Count; i++)
         {
@@ -105,7 +100,7 @@ public class PoolManager : MonoBehaviour
 
         foreach (ObjectPoolItem item in itemsToPool)
         {
-            if (item.poolKey == key && item.isExpandable)
+            if (item.poolKey == poolKey && item.isExpandable)
             {
                 GameObject obj = Instantiate(item.objectToPool);
                 obj.SetActive(false);
@@ -114,6 +109,27 @@ public class PoolManager : MonoBehaviour
                 pooledObjects.Add(item.poolKey, tempList);
                 return obj;
             }
+        }
+
+        return null;
+    }
+
+    public GameObject GetPooledLevels()
+    {
+        List<GameObject> tempList = GetTempList("Levels");
+        List<GameObject> activeList = new List<GameObject>();
+
+        for (int i = 0; i < tempList.Count; i++)
+        {
+            if (!tempList[i].activeInHierarchy)
+            {
+                activeList.Add(tempList[i]);
+            }
+        }
+
+        if (activeList.Count != 0)
+        {
+            return activeList[Mathf.RoundToInt(Random.Range(0, activeList.Count))];
         }
 
         return null;
