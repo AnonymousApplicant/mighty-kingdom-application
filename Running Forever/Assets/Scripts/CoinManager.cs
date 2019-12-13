@@ -27,7 +27,7 @@ public class CoinManager : MonoBehaviour
     void Start()
     {
         coinTimer = 0f;
-        coinGap = 10f;
+        coinGap = 5f;
     }
 
     void Update()
@@ -40,7 +40,7 @@ public class CoinManager : MonoBehaviour
             obj.transform.position = new Vector3(16f, Random.Range(2f, -2f), 0f);
             obj.SetActive(true);
             coinTimer = 0f;
-            coinGap = Random.Range(9f, 11f);
+            coinGap = Random.Range(2f, 4f);
         }
     }
 }

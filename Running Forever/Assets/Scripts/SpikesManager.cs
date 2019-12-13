@@ -37,10 +37,10 @@ public class SpikesManager : MonoBehaviour
         if (spikesTimer >= spikesGap)
         {
             GameObject obj = PoolManager.Instance.GetPooledObject("Spikes");
-            obj.transform.position = new Vector3(16f, -3.6f, 0f);
+            obj.transform.position = new Vector3(16f, -3.5f, 0f);
             obj.SetActive(true);
             spikesTimer = 0f;
-            spikesGap = Random.Range(4f, 6f);
+            spikesGap = Random.Range(1.5f, 3f);
         }
     }
 }
