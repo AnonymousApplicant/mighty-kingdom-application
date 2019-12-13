@@ -1,18 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody rb;
+    private Rigidbody2D rb;
 
-    private bool canJump;
     [SerializeField]
     private float jumpHeight; // Variable that defines the jump height
+    private bool canJump;
+    private bool canDoubleJump;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void FixedUpdate()
@@ -27,6 +26,10 @@ public class PlayerController : MonoBehaviour
                 {
                     Jump();
                 }
+                else if (canDoubleJump)
+                {
+                    DoubleJump();
+                }
             }
         }
     }
@@ -34,11 +37,19 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         canJump = false;
-        rb.AddForce(new Vector3(0f, jumpHeight, 0f), ForceMode.VelocityChange);
+        rb.AddForce(new Vector2(0f, jumpHeight * 100f));
+        canDoubleJump = true;
     }
 
-    void OnTriggerEnter(Collider other)
+    void DoubleJump()
     {
+        canDoubleJump = false;
+        rb.AddForce(new Vector2(0f, jumpHeight * 50f));
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("entered");
         canJump = true;
     }
 }

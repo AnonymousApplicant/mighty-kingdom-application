@@ -113,9 +113,9 @@ public class PoolManager : MonoBehaviour
         return null;
     }
 
-    public GameObject GetPooledLevels()
+    public GameObject GetMixedPooledObjects(string poolKey)
     {
-        List<GameObject> tempList = GetTempList("Levels");
+        List<GameObject> tempList = GetTempList(poolKey);
         List<GameObject> activeList = new List<GameObject>();
 
         for (int i = 0; i < tempList.Count; i++)
