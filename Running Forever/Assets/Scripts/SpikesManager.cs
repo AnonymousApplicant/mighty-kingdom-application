@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinManager : MonoBehaviour
+public class SpikesManager : MonoBehaviour
 {
-    public static CoinManager Instance;
+    public static SpikesManager Instance;
 
-    private float coinTimer;
-    private float coinGap;
+    private float spikesTimer;
+    private float spikesGap;
 
     void Awake()
     {
@@ -26,21 +26,21 @@ public class CoinManager : MonoBehaviour
 
     void Start()
     {
-        coinTimer = 0f;
-        coinGap = 10f;
+        spikesTimer = 0f;
+        spikesGap = 5f;
     }
 
     void Update()
     {
-        coinTimer += Time.deltaTime;
+        spikesTimer += Time.deltaTime;
 
-        if (coinTimer >= coinGap)
+        if (spikesTimer >= spikesGap)
         {
-            GameObject obj = PoolManager.Instance.GetPooledObject("Coins");
-            obj.transform.position = new Vector3(16f, Random.Range(2f, -2f), 0f);
+            GameObject obj = PoolManager.Instance.GetPooledObject("Spikes");
+            obj.transform.position = new Vector3(16f, -3.6f, 0f);
             obj.SetActive(true);
-            coinTimer = 0f;
-            coinGap = Random.Range(9f, 11f);
+            spikesTimer = 0f;
+            spikesGap = Random.Range(4f, 6f);
         }
     }
 }

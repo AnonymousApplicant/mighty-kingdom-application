@@ -232,7 +232,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 182726317}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.04, z: 0}
+  m_LocalPosition: {x: -6, y: -3.04, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -374,6 +374,7 @@ GameObject:
   - component: {fileID: 605677816}
   - component: {fileID: 605677817}
   - component: {fileID: 605677818}
+  - component: {fileID: 605677825}
   - component: {fileID: 605677824}
   - component: {fileID: 605677823}
   - component: {fileID: 605677822}
@@ -420,6 +421,12 @@ MonoBehaviour:
     objectsToPool: []
     amountToPool: 1
     isExpandable: 1
+  - poolKey: Spikes
+    objectToPool: {fileID: 7219546081906125951, guid: 5c1bb6a10e43d274da06f014dfc0ef87,
+      type: 3}
+    objectsToPool: []
+    amountToPool: 1
+    isExpandable: 1
 --- !u!114 &605677818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,7 +451,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c20ebce488096cb4682557534233c7f0, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -540,7 +547,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d117490a4e468ec4f82431aac1d9af68, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -929,6 +936,18 @@ MonoBehaviour:
   doubleJump: {fileID: 605677821}
   coinCollect: {fileID: 605677820}
   playerPop: {fileID: 605677819}
+--- !u!114 &605677825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605677815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44591e535166e24418ec9d30930a0bf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1971680451
 GameObject:
   m_ObjectHideFlags: 0
@@ -1010,7 +1029,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 98
   m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
