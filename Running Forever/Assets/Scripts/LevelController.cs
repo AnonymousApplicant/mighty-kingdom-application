@@ -1,14 +1,27 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
+    private Rigidbody rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
     void Update()
     {
-        transform.position = new Vector3(transform.position.x - (LevelManager.Instance.difficulty * Time.deltaTime), -4.5f, 0f);
+        Vector3 position = new Vector3(transform.position.x - (LevelManager.Instance.difficulty * Time.deltaTime), 0.5f, 0f);
+        rb.MovePosition(position);
+    }
 
-        if (transform.position.x < -15.2f)
+    void FixedUpdate()
+    {
+        if (transform.position.x < -((LevelManager.Instance.amountActive / 2) * 10))
         {
-            LevelManager.Instance.AddToLevel();
+            float offset = transform.position.x + ((LevelManager.Instance.amountActive / 2) * 10);
+            LevelManager.Instance.AddToLevel(offset);
             gameObject.SetActive(false);
         }
     }

@@ -2,7 +2,6 @@
 using UnityEngine;
 
 [System.Serializable]
-
 public class ObjectPoolItem
 {
     [Tooltip("The key (name) for the pool, used when trying to 'GetPooledObjects()'")]

@@ -6,9 +6,16 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
 
+    [Tooltip("The starting difficulty.")]
     public float difficulty;
-    public float multiplier;
+    [SerializeField]
+    [Tooltip("The amount to multiply the diffiiculty by per second.")]
+    private float multiplier;
     private float timer;
+
+    [Tooltip("The amount of level prefabs to be active at 1 time. (Even Number)")]
+    public int amountActive;
+    private List<GameObject> activeObjects;
 
     void Awake()
     {
@@ -27,22 +34,19 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        GameObject obj1 = PoolManager.Instance.GetPooledLevels();
-        obj1.transform.position = new Vector3(-10.9f, -4.5f, 0f);
-        obj1.SetActive(true);
+        int startingPoint = -((amountActive / 2) * 10);
 
-        GameObject obj2 = PoolManager.Instance.GetPooledLevels();
-        obj2.transform.position = new Vector3(0f, -4.5f, 0f);
-        obj2.SetActive(true);
-
-        GameObject obj3 = PoolManager.Instance.GetPooledLevels();
-        obj3.transform.position = new Vector3(10.9f, -4.5f, 0f);
-        obj3.SetActive(true);
+        for (int i = 0; i < amountActive; i++)
+        {
+            GameObject obj = PoolManager.Instance.GetPooledLevels();
+            obj.transform.position = new Vector3(startingPoint + (i * 10f), 0.5f, 0f);
+            obj.SetActive(true);
+        }
     }
 
     void Update()
     {
-        timer += Time.deltaTime;
+        if (difficulty < 15f) timer += Time.deltaTime;
 
         if (timer >= 1f)
         {
@@ -51,10 +55,10 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void AddToLevel()
+    public void AddToLevel(float offset)
     {
         GameObject obj = PoolManager.Instance.GetPooledLevels();
-        obj.transform.position = new Vector3(15.2f, -4.5f, 0f);
+        obj.transform.position = new Vector3(((amountActive / 2) * 10) + offset, 0.5f, 0f);
         obj.SetActive(true);
     }
 }
