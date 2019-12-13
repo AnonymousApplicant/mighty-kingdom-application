@@ -38,7 +38,7 @@ public class CloudManager : MonoBehaviour
             obj.transform.position = new Vector3(16f, Random.Range(3f, 4f), 0f);
             obj.SetActive(true);
             cloudsTimer = 0f;
-            cloudsGap = Random.Range(3f, 5f);
+            cloudsGap = Random.Range(1.5f, 5f);
         }
     }
 }
