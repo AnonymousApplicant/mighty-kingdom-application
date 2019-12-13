@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class SpikesManager : MonoBehaviour
+public class RoadLineManager : MonoBehaviour
 {
-    public static SpikesManager Instance;
+    public static RoadLineManager Instance;
 
-    private float spikesTimer;
-    private float spikesGap;
+    private float roadLineTimer;
+    private float roadLineGap;
 
     void Awake()
     {
@@ -24,21 +24,21 @@ public class SpikesManager : MonoBehaviour
 
     void Start()
     {
-        spikesTimer = 0f;
-        spikesGap = 5f;
+        roadLineTimer = 0f;
+        roadLineGap = 0f;
     }
 
     void Update()
     {
-        spikesTimer += Time.deltaTime;
+        roadLineTimer += Time.deltaTime;
 
-        if (spikesTimer >= spikesGap)
+        if (roadLineTimer >= roadLineGap)
         {
-            GameObject obj = PoolManager.Instance.GetPooledObject("Spikes");
-            obj.transform.position = new Vector3(16f, -3.5f, 0f);
+            GameObject obj = PoolManager.Instance.GetPooledObject("RoadLines");
+            obj.transform.position = new Vector3(16f, -4.5f, 0f);
             obj.SetActive(true);
-            spikesTimer = 0f;
-            spikesGap = Random.Range(1.5f, 3f);
+            roadLineTimer = 0f;
+            roadLineGap = 0.5f;
         }
     }
 }

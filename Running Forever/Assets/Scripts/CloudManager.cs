@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class SpikesManager : MonoBehaviour
+public class CloudManager : MonoBehaviour
 {
-    public static SpikesManager Instance;
+    public static CloudManager Instance;
 
-    private float spikesTimer;
-    private float spikesGap;
+    private float cloudsTimer;
+    private float cloudsGap;
 
     void Awake()
     {
@@ -24,21 +24,21 @@ public class SpikesManager : MonoBehaviour
 
     void Start()
     {
-        spikesTimer = 0f;
-        spikesGap = 5f;
+        cloudsTimer = 0f;
+        cloudsGap = 0f;
     }
 
     void Update()
     {
-        spikesTimer += Time.deltaTime;
+        cloudsTimer += Time.deltaTime;
 
-        if (spikesTimer >= spikesGap)
+        if (cloudsTimer >= cloudsGap)
         {
-            GameObject obj = PoolManager.Instance.GetPooledObject("Spikes");
-            obj.transform.position = new Vector3(16f, -3.5f, 0f);
+            GameObject obj = PoolManager.Instance.GetMixedPooledObjects("Clouds");
+            obj.transform.position = new Vector3(16f, Random.Range(3f, 4f), 0f);
             obj.SetActive(true);
-            spikesTimer = 0f;
-            spikesGap = Random.Range(1.5f, 3f);
+            cloudsTimer = 0f;
+            cloudsGap = Random.Range(3f, 5f);
         }
     }
 }

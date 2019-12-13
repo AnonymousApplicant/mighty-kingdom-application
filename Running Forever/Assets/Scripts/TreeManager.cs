@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class SpikesManager : MonoBehaviour
+public class TreeManager : MonoBehaviour
 {
-    public static SpikesManager Instance;
+    public static TreeManager Instance;
 
-    private float spikesTimer;
-    private float spikesGap;
+    private float treeTimer;
+    private float treeGap;
 
     void Awake()
     {
@@ -24,21 +24,21 @@ public class SpikesManager : MonoBehaviour
 
     void Start()
     {
-        spikesTimer = 0f;
-        spikesGap = 5f;
+        treeTimer = 0f;
+        treeGap = 0f;
     }
 
     void Update()
     {
-        spikesTimer += Time.deltaTime;
+        treeTimer += Time.deltaTime;
 
-        if (spikesTimer >= spikesGap)
+        if (treeTimer >= treeGap)
         {
-            GameObject obj = PoolManager.Instance.GetPooledObject("Spikes");
-            obj.transform.position = new Vector3(16f, -3.5f, 0f);
+            GameObject obj = PoolManager.Instance.GetPooledObject("Trees");
+            obj.transform.position = new Vector3(16f, 0f, 0f);
             obj.SetActive(true);
-            spikesTimer = 0f;
-            spikesGap = Random.Range(1.5f, 3f);
+            treeTimer = 0f;
+            treeGap = 5f;
         }
     }
 }

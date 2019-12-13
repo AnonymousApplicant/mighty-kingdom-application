@@ -292,7 +292,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -316,7 +316,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BackGroundColor: {r: 0.6084906, g: 1, b: 0.9999999, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -377,6 +377,9 @@ GameObject:
   - component: {fileID: 605677824}
   - component: {fileID: 605677818}
   - component: {fileID: 605677825}
+  - component: {fileID: 605677827}
+  - component: {fileID: 605677829}
+  - component: {fileID: 605677828}
   - component: {fileID: 605677823}
   - component: {fileID: 605677822}
   - component: {fileID: 605677821}
@@ -427,6 +430,27 @@ MonoBehaviour:
       type: 3}
     objectsToPool: []
     amountToPool: 1
+    isExpandable: 1
+  - poolKey: Trees
+    objectToPool: {fileID: 9112852735906546096, guid: ddb20cf682d96954e9993029db98f4b5,
+      type: 3}
+    objectsToPool: []
+    amountToPool: 1
+    isExpandable: 1
+  - poolKey: RoadLines
+    objectToPool: {fileID: 4197676311364681121, guid: 5131a753c1c560a49a283f98bf4da41e,
+      type: 3}
+    objectsToPool: []
+    amountToPool: 1
+    isExpandable: 1
+  - poolKey: Clouds
+    objectToPool: {fileID: 0}
+    objectsToPool:
+    - {fileID: 6616407015889239349, guid: b3e38d6851fd51b4ea65668052b3e65b, type: 3}
+    - {fileID: 8814977894597799513, guid: 459c1920643299848888bda36fb78122, type: 3}
+    - {fileID: 3626276147487032487, guid: e54959efdf0de0b43838075679cffcf4, type: 3}
+    - {fileID: 6259938532555170264, guid: d967f788e85c202428d0727a1dd8988d, type: 3}
+    amountToPool: 3
     isExpandable: 1
 --- !u!114 &605677818
 MonoBehaviour:
@@ -961,8 +985,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 345f1adbac9addc458f19599ab9b528f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficulty: 10
+  difficulty: 9
   multiplier: 1.02
+--- !u!114 &605677827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605677815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a33c72acc2177741a810b10768e4081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &605677828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605677815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6873cc2c018dda044a2542bfbb611d9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &605677829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605677815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 222962c13d2a5394b80a9fa2822c41ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1971680451
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,7 +1104,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 98
+  m_SortingOrder: 97
   m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
