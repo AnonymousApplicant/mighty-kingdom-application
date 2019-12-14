@@ -4,6 +4,9 @@ public class SpikesManager : MonoBehaviour
 {
     public static SpikesManager Instance;
 
+    public float startingGap;
+    public Vector2 gapRange;
+
     private float spikesTimer;
     private float spikesGap;
 
@@ -25,12 +28,12 @@ public class SpikesManager : MonoBehaviour
     void Start()
     {
         spikesTimer = 0f;
-        spikesGap = 5f;
+        spikesGap = startingGap;
     }
 
     void Update()
     {
-        spikesTimer += Time.deltaTime;
+        spikesTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / 9);
 
         if (spikesTimer >= spikesGap)
         {
@@ -38,7 +41,7 @@ public class SpikesManager : MonoBehaviour
             obj.transform.position = new Vector3(16f, -3.5f, 0f);
             obj.SetActive(true);
             spikesTimer = 0f;
-            spikesGap = Random.Range(1.5f, 3f);
+            spikesGap = Random.Range(gapRange.x, gapRange.y);
         }
     }
 }

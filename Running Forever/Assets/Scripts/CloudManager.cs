@@ -4,6 +4,9 @@ public class CloudManager : MonoBehaviour
 {
     public static CloudManager Instance;
 
+    public float startingGap;
+    public Vector2 gapRange;
+
     private float cloudsTimer;
     private float cloudsGap;
 
@@ -25,20 +28,27 @@ public class CloudManager : MonoBehaviour
     void Start()
     {
         cloudsTimer = 0f;
-        cloudsGap = 0f;
+        cloudsGap = startingGap;
+
+        for (int i = 0; i < 8; i++)
+        {
+            GameObject obj = PoolManager.Instance.GetMixedPooledObjects("Clouds");
+            obj.transform.position = new Vector3(-16f + (4f * i), Random.Range(2f, 4f), 0f);
+            obj.SetActive(true);
+        }
     }
 
     void Update()
     {
-        cloudsTimer += Time.deltaTime;
+        cloudsTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / 9);
 
         if (cloudsTimer >= cloudsGap)
         {
             GameObject obj = PoolManager.Instance.GetMixedPooledObjects("Clouds");
-            obj.transform.position = new Vector3(16f, Random.Range(3f, 4f), 0f);
+            obj.transform.position = new Vector3(16f, Random.Range(2f, 4f), 0f);
             obj.SetActive(true);
             cloudsTimer = 0f;
-            cloudsGap = Random.Range(1.5f, 5f);
+            cloudsGap = Random.Range(gapRange.x, gapRange.y);
         }
     }
 }

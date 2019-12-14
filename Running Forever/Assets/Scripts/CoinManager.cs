@@ -6,6 +6,9 @@ public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance;
 
+    public float startingGap;
+    public Vector2 gapRange;
+
     private float coinTimer;
     private float coinGap;
 
@@ -27,7 +30,7 @@ public class CoinManager : MonoBehaviour
     void Start()
     {
         coinTimer = 0f;
-        coinGap = 5f;
+        coinGap = startingGap;
     }
 
     void Update()
@@ -37,10 +40,10 @@ public class CoinManager : MonoBehaviour
         if (coinTimer >= coinGap)
         {
             GameObject obj = PoolManager.Instance.GetPooledObject("Coins");
-            obj.transform.position = new Vector3(16f, Random.Range(2f, -2f), 0f);
+            obj.transform.position = new Vector3(16f, Random.Range(2f, -1f), 0f);
             obj.SetActive(true);
             coinTimer = 0f;
-            coinGap = Random.Range(2f, 4f);
+            coinGap = Random.Range(gapRange.x, gapRange.y);
         }
     }
 }

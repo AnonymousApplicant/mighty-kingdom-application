@@ -4,6 +4,9 @@ public class RoadLineManager : MonoBehaviour
 {
     public static RoadLineManager Instance;
 
+    public float startingGap;
+    public float gapTime;
+
     private float roadLineTimer;
     private float roadLineGap;
 
@@ -25,12 +28,19 @@ public class RoadLineManager : MonoBehaviour
     void Start()
     {
         roadLineTimer = 0f;
-        roadLineGap = 0f;
+        roadLineGap = startingGap;
+
+        for (int i = 0; i < 7; i++)
+        {
+            GameObject obj = PoolManager.Instance.GetPooledObject("RoadLines");
+            obj.transform.position = new Vector3(-15f + (4.5f * i), -4.5f, 0f);
+            obj.SetActive(true);
+        }
     }
 
     void Update()
     {
-        roadLineTimer += Time.deltaTime;
+        roadLineTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / 9);
 
         if (roadLineTimer >= roadLineGap)
         {
@@ -38,7 +48,7 @@ public class RoadLineManager : MonoBehaviour
             obj.transform.position = new Vector3(16f, -4.5f, 0f);
             obj.SetActive(true);
             roadLineTimer = 0f;
-            roadLineGap = 0.5f;
+            roadLineGap = gapTime;
         }
     }
 }
