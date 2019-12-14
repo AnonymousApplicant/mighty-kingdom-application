@@ -33,7 +33,7 @@ public class CloudManager : MonoBehaviour
         for (int i = 0; i < 8; i++)
         {
             GameObject obj = PoolManager.Instance.GetMixedPooledObjects("Clouds");
-            obj.transform.position = new Vector3(-16f + (4f * i), Random.Range(2f, 4f), 0f);
+            obj.transform.position = new Vector3(-16f + (4f * i), Random.Range(1.4f, 4f), 0f);
             obj.SetActive(true);
         }
     }
@@ -45,7 +45,7 @@ public class CloudManager : MonoBehaviour
         if (cloudsTimer >= cloudsGap)
         {
             GameObject obj = PoolManager.Instance.GetMixedPooledObjects("Clouds");
-            obj.transform.position = new Vector3(16f, Random.Range(2f, 4f), 0f);
+            obj.transform.position = new Vector3(16f, Random.Range(1.4f, 4f), 0f);
             obj.SetActive(true);
             cloudsTimer = 0f;
             cloudsGap = Random.Range(gapRange.x, gapRange.y);

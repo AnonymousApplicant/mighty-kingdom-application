@@ -51,4 +51,16 @@ public class CoinManager : MonoBehaviour
             }
         }
     }
+
+    public void SpawnPlatformCoins()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject obj = PoolManager.Instance.GetPooledObject("Coins");
+            obj.transform.position = new Vector3(12.5f + (4.5f * i), 3.5f, 0f);
+            obj.SetActive(true);
+            coinTimer = 0f;
+            coinGap = Random.Range(gapRange.x, gapRange.y);
+        }
+    }
 }
