@@ -29,6 +29,7 @@ public class CoinController : MonoBehaviour
         if (other.tag == "Player")
         {
             SFXManager.Instance.coinCollect.Play();
+            ScoreManager.Instance.coinScore += CoinManager.Instance.coinScore;
             gameObject.SetActive(false);
         }
     }

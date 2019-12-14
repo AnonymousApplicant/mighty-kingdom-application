@@ -10,8 +10,11 @@ public class PlayerController : MonoBehaviour
     private GameObject sprite;
     [SerializeField]
     private float spinRate;
+
     [SerializeField]
     private float jumpHeight; // Variable that defines the jump height
+    [SerializeField]
+    private float maxVelocity;
     private bool canJump;
     private bool canDoubleJump;
 
@@ -43,14 +46,33 @@ public class PlayerController : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
 
-            if (touch.phase == TouchPhase.Moved && canJump)
+            if (touch.phase == TouchPhase.Began)
+            {
+                if (canJump)
+                {
+                    Jump();
+                }
+                else if (canDoubleJump)
+                {
+                    DoubleJump();
+                }
+            }
+        }
+        else if (Input.GetButtonDown("Jump"))
+        {
+            if (canJump)
             {
                 Jump();
             }
-            else if (touch.phase == TouchPhase.Began && canDoubleJump)
+            else if (canDoubleJump)
             {
                 DoubleJump();
             }
+        }
+
+        if (rb.velocity.magnitude > maxVelocity)
+        {
+            rb.velocity = rb.velocity.normalized * maxVelocity;
         }
     }
 
@@ -65,7 +87,7 @@ public class PlayerController : MonoBehaviour
     void DoubleJump()
     {
         canDoubleJump = false;
-        rb.AddForce(new Vector2(0f, jumpHeight * 50f));
+        rb.AddForce(new Vector2(0f, jumpHeight * 100f));
         SFXManager.Instance.doubleJump.Play();
     }
 

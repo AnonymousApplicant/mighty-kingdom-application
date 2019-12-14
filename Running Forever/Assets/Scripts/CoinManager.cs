@@ -6,6 +6,8 @@ public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance;
 
+    public float coinScore;
+
     public float startingGap;
     public Vector2 gapRange;
 
