@@ -34,7 +34,10 @@ public class ScoreManager : MonoBehaviour
 
     void Update()
     {
-        timer += Time.deltaTime;
-        currentScore = (timer * timeMultiplier) + coinScore;
+        if (HUDManager.Instance.isPlaying)
+        {
+            timer += Time.deltaTime;
+            currentScore = (timer * timeMultiplier) + coinScore;
+        }
     }
 }

@@ -27,12 +27,15 @@ public class DifficultyManager : MonoBehaviour
 
     void Update()
     {
-        timer += Time.deltaTime;
-
-        if (timer >= 1f)
+        if (HUDManager.Instance.isPlaying)
         {
-            if (difficulty < 20f) difficulty = difficulty * multiplier;
-            timer = 0f;
+            timer += Time.deltaTime;
+
+            if (timer >= 1f)
+            {
+                if (difficulty < 20f) difficulty = difficulty * multiplier;
+                timer = 0f;
+            }
         }
     }
 }

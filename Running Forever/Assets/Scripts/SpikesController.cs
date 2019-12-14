@@ -30,6 +30,7 @@ public class SpikesController : MonoBehaviour
         {
             SFXManager.Instance.playerPop.Play();
             PlayerController.Instance.gameObject.SetActive(false);
+            HUDManager.Instance.EndGame();
         }
     }
 }

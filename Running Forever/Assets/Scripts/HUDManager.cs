@@ -6,19 +6,47 @@ using System;
 
 public class HUDManager : MonoBehaviour
 {
-    [SerializeField]
-    private TextMeshProUGUI score;
+    public static HUDManager Instance;
 
-    // Start is called before the first frame update
+    [HideInInspector]
+    public bool isPlaying;
+
+    [SerializeField]
+    private TextMeshProUGUI sScore;
+    [SerializeField]
+    private TextMeshProUGUI lScore;
+
+    [SerializeField]
+    private GameObject smallScore;
+    [SerializeField]
+    private GameObject largeScore;
+    [SerializeField]
+    private GameObject retryButton;
+
+    void Awake()
+    {
+        // Check if the Instance variable is not null and not 'this'
+        if (Instance != null && Instance != this)
+        {
+            // Destroy gameObject connected to this script if Instance is already defined
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            // Assign 'this' to the Instance variable if Instance is null
+            Instance = this;
+        }
+    }
+
     void Start()
     {
-        
+        isPlaying = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        score.SetText(ScoreManager.Instance.currentScore.ToString("F2"));
+        sScore.SetText(ScoreManager.Instance.currentScore.ToString("F2"));
     }
 
     // Triggered when retry button is pressed
@@ -28,22 +56,17 @@ public class HUDManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    // Triggered when exit button is pressed
-    public void QuitClicked()
-    {
-        Debug.Log("GAME QUIT!");
-        Application.Quit();
-    }
-
     // Trigger when the player steps into the finish trigger with all 3 pups
     public void EndGame()
     {
         // Display UI
-        //congrats.gameObject.SetActive(true);
-        //retry.gameObject.SetActive(true);
+        smallScore.gameObject.SetActive(false);
+        largeScore.gameObject.SetActive(true);
+        retryButton.gameObject.SetActive(true);
 
-        // Change timeScale back to 1
-        Time.timeScale = 0f;
+        lScore.SetText(ScoreManager.Instance.currentScore.ToString("F2"));
+
+        isPlaying = false;
     }
 
     // Converts floats into integers and display as time (90 = 01:30)
