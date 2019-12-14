@@ -38,10 +38,7 @@ public class HUDManager : MonoBehaviour
         }
 
         Application.targetFrameRate = 60;
-    }
 
-    void Start()
-    {
         isPlaying = false;
     }
 
