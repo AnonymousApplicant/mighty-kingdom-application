@@ -8,6 +8,7 @@ public class ScoreManager : MonoBehaviour
 
     public float currentScore;
 
+    [HideInInspector]
     public float coinScore;
 
     private float timer;
