@@ -37,15 +37,18 @@ public class CoinManager : MonoBehaviour
 
     void Update()
     {
-        coinTimer += Time.deltaTime;
-
-        if (coinTimer >= coinGap)
+        if (HUDManager.Instance.isPlaying == true)
         {
-            GameObject obj = PoolManager.Instance.GetPooledObject("Coins");
-            obj.transform.position = new Vector3(16f, Random.Range(2f, -1f), 0f);
-            obj.SetActive(true);
-            coinTimer = 0f;
-            coinGap = Random.Range(gapRange.x, gapRange.y);
+            coinTimer += Time.deltaTime;
+
+            if (coinTimer >= coinGap)
+            {
+                GameObject obj = PoolManager.Instance.GetPooledObject("Coins");
+                obj.transform.position = new Vector3(16f, Random.Range(2f, -1f), 0f);
+                obj.SetActive(true);
+                coinTimer = 0f;
+                coinGap = Random.Range(gapRange.x, gapRange.y);
+            }
         }
     }
 }

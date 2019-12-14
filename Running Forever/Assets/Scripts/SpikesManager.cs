@@ -33,15 +33,18 @@ public class SpikesManager : MonoBehaviour
 
     void Update()
     {
-        spikesTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / 9);
-
-        if (spikesTimer >= spikesGap)
+        if (HUDManager.Instance.isPlaying == true)
         {
-            GameObject obj = PoolManager.Instance.GetPooledObject("Spikes");
-            obj.transform.position = new Vector3(16f, -3.5f, 0f);
-            obj.SetActive(true);
-            spikesTimer = 0f;
-            spikesGap = Random.Range(gapRange.x, gapRange.y);
+            spikesTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / 9);
+
+            if (spikesTimer >= spikesGap)
+            {
+                GameObject obj = PoolManager.Instance.GetPooledObject("Spikes");
+                obj.transform.position = new Vector3(16f, -3.5f, 0f);
+                obj.SetActive(true);
+                spikesTimer = 0f;
+                spikesGap = Random.Range(gapRange.x, gapRange.y);
+            }
         }
     }
 }

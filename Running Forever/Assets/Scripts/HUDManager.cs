@@ -36,11 +36,13 @@ public class HUDManager : MonoBehaviour
             // Assign 'this' to the Instance variable if Instance is null
             Instance = this;
         }
+
+        Application.targetFrameRate = 60;
     }
 
     void Start()
     {
-        isPlaying = true;
+        isPlaying = false;
     }
 
     // Update is called once per frame
@@ -52,6 +54,7 @@ public class HUDManager : MonoBehaviour
     // Triggered when retry button is pressed
     public void RetryClicked()
     {
+        MainMenu.retry = true;
         // Reloads current scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

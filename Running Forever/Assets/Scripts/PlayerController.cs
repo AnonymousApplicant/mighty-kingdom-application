@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        StopPhysics();
     }
 
     void Update()
@@ -97,5 +98,15 @@ public class PlayerController : MonoBehaviour
         {
             canJump = true;
         }
+    }
+
+    public void StartPhysics()
+    {
+        rb.WakeUp();
+    }
+
+    public void StopPhysics()
+    {
+        rb.Sleep();
     }
 }
