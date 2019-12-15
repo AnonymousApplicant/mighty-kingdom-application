@@ -69,18 +69,6 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
-            // Controls for PC play, to allow easier testing, would be removed in final APK builds
-            else if (Input.GetButtonDown("Jump"))
-            {
-                if (canJump)
-                {
-                    Jump();
-                }
-                else if (canDoubleJump)
-                {
-                    DoubleJump();
-                }
-            }
 
             // Check if the rigidbodies velocity is more than the max, if so set it to max in the same direction
             if (rb.velocity.magnitude > maxVelocity)
