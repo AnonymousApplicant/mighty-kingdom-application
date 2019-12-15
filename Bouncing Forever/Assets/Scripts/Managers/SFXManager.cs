@@ -30,16 +30,4 @@ public class SFXManager : MonoBehaviour
             Instance = this;
         }
     }
-
-    // Method for pausing the music, will check which one is playing, pause it and save it in the Enum
-    public void PauseMusic()
-    {
-        music.Pause();
-    }
-
-    // Method for playing the music after pausing, will check what the Enum is and play accordingly
-    public void PlayMusic()
-    {
-        music.Play();
-    }
 }

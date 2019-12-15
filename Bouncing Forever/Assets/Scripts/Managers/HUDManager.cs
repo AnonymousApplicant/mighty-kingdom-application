@@ -66,6 +66,8 @@ public class HUDManager : MonoBehaviour
         smallScore.gameObject.SetActive(false);
         largeScore.gameObject.SetActive(true);
         retryButton.gameObject.SetActive(true);
+        // Stop the music playing
+        SFXManager.Instance.music.Pause();
         // Set larger score text the current (end game) score
         lScore.SetText(ScoreManager.Instance.currentScore.ToString("F2"));
         // Set is playing to false so difficulty stops increasing and non-scenic objects stop spawning
