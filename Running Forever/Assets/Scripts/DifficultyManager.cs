@@ -4,11 +4,13 @@ public class DifficultyManager : MonoBehaviour
 {
     public static DifficultyManager Instance; // variable that holds the instance for the singleton setup
 
-    public float startingDifficulty; // The difficulty at which to start
+    [Tooltip("The difficulty at which to start")]
+    public float startingDifficulty;
     [HideInInspector]
     public float difficulty; // Variable that holds the current difficulty
     [SerializeField]
-    private float multiplier; // The multiplier to multiply the difficulty by
+    [Tooltip("The multiplier to multiply the difficulty by")]
+    private float multiplier;
 
     private float timer; // Timer to keep track of time
 

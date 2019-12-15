@@ -4,8 +4,10 @@ public class TreeManager : MonoBehaviour
 {
     public static TreeManager Instance; // variable that holds the instance for the singleton setup
 
-    public float startingGap; // The starting time to wait for the first object to be introduced
-    public float gapTime; // The time between gaps after the first one
+    [Tooltip("The starting time to wait for the first object to be introduced")]
+    public float startingGap;
+    [Tooltip("The time between gaps after the first one")]
+    public float gapTime;
 
     private float treeTimer; // Timer that keeps track of the time since last spawn
     private float treeGap; // The variable that keeps track of the current gap

@@ -4,8 +4,10 @@ public class RoadLineManager : MonoBehaviour
 {
     public static RoadLineManager Instance; // variable that holds the instance for the singleton setup
 
-    public float startingGap; // The starting time to wait for the first object to be introduced
-    public float gapTime; // The time between gaps after the first one
+    [Tooltip("The starting time to wait for the first object to be introduced")]
+    public float startingGap;
+    [Tooltip("The time between gaps after the first one")]
+    public float gapTime;
 
     private float roadLineTimer; // Timer that keeps track of the time since last spawn
     private float roadLineGap; // The variable that keeps track of the current gap

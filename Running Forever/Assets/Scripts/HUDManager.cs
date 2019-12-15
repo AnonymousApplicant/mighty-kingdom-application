@@ -1,8 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System;
 
 public class HUDManager : MonoBehaviour
 {
@@ -12,16 +10,21 @@ public class HUDManager : MonoBehaviour
     public bool isPlaying; // Boolean that defines whether the game is being played or not (Start or End game etc)
 
     [SerializeField]
-    private TextMeshProUGUI sScore; // Variable that holds the small score's text
+    [Tooltip("Variable that holds the small scores's text")]
+    private TextMeshProUGUI sScore;
     [SerializeField]
-    private TextMeshProUGUI lScore; // Variable that holds the large score's text
+    [Tooltip("Variable that holds the large scores's text")]
+    private TextMeshProUGUI lScore;
 
     [SerializeField]
-    private GameObject smallScore; // Variable that holds the small score object
+    [Tooltip("Variable that holds the small scores object")]
+    private GameObject smallScore;
     [SerializeField]
-    private GameObject largeScore; // Variable that holds the large score object
+    [Tooltip("Variable that holds the large scores object")]
+    private GameObject largeScore;
     [SerializeField]
-    private GameObject retryButton; // Variable that holds the retry button
+    [Tooltip("Variable that holds the retry button")]
+    private GameObject retryButton;
 
     void Awake()
     {

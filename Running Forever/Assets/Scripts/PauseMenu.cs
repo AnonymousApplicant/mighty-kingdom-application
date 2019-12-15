@@ -8,9 +8,11 @@ public class PauseMenu : MonoBehaviour
 {
     public static PauseMenu Instance; // Instance variable that holds the singleton of this class
 
+    [HideInInspector]
     public bool isPaused; // Global variable to keep track of whether or not game is paused
     [SerializeField]
-    private GameObject pauseMenuUI; // The game object containing the pause menu items
+    [Tooltip("The GameObject containing the pause menu object")]
+    private GameObject pauseMenuUI;
 
     void Awake()
     {

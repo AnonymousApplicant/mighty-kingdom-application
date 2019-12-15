@@ -4,8 +4,10 @@ public class SpikesManager : MonoBehaviour
 {
     public static SpikesManager Instance; // variable that holds the instance for the singleton setup
 
-    public float startingGap; // The starting time to wait for the first object to be introduced
-    public Vector2 gapRange; // The range of time between gaps after the first one
+    [Tooltip("The starting time to wait for the first object to be introduced")]
+    public float startingGap;
+    [Tooltip("The range of time between gaps after the first one")]
+    public Vector2 gapRange;
 
     private float spikesTimer; // Timer that keeps track of the time since last spawn
     private float spikesGap; // The variable that keeps track of the current gap

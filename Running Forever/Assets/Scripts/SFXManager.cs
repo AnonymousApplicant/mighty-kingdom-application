@@ -1,17 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SFXManager : MonoBehaviour
 {
     public static SFXManager Instance; // variable that holds the instance for the singleton setup
 
-    public AudioSource music; // Contains the sneaking music audio
+    [Tooltip("Contains the music audio")]
+    public AudioSource music;
 
-    public AudioSource jump; // Contains the jumping audio
-    public AudioSource doubleJump; // Contains the doubleJumping audio
-    public AudioSource coinCollect; // Contains the coinCollecting audio
-    public AudioSource playerPop; // Contains the playerPopping audio
+    [Tooltip("Contains the jumping audio")]
+    public AudioSource jump;
+    [Tooltip("Contains the doubleJumping audio")]
+    public AudioSource doubleJump;
+    [Tooltip("Contains the coinCollecting audio")]
+    public AudioSource coinCollect;
+    [Tooltip("Contains the playerPopping audio")]
+    public AudioSource playerPop;
 
     void Awake()
     {

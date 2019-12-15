@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class RoadLineController : MonoBehaviour
 {
     private Rigidbody2D rb; // Variable that holds the Rigidbody2D component of the object it's attached to

@@ -1,6 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class CoinController : MonoBehaviour
 {
     private Rigidbody2D rb; // Variable that holds the Rigidbody2D component of the object it's attached to

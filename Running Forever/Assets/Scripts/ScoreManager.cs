@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance; // variable that holds the instance for the singleton setup
 
+    [HideInInspector]
     public float currentScore; // Public variable that holds the currentScore
 
     [HideInInspector]
@@ -13,7 +12,8 @@ public class ScoreManager : MonoBehaviour
 
     private float timer; // Timer variable to track timer
     [SerializeField]
-    private float timeMultiplier; // The multiplier to multiply time by to get base score
+    [Tooltip("The multiplier to multiply time by to get base score")]
+    private float timeMultiplier;
 
     void Awake()
     {

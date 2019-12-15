@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.Design;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 /// <summary>
 /// Manages main menu
@@ -10,12 +7,15 @@ public class MainMenu : MonoBehaviour
 {
     public static MainMenu Instance; // Instance variable that holds the singleton of this class
 
-    public static bool retry; // Satic variable that if true on Start() will press play for you (For retry button)
+    [Tooltip("Satic variable that if true on Start() will press play for you (For retry button)")]
+    public static bool retry;
 
     [SerializeField]
-    private GameObject menu; // The GameObject holding the menu items
+    [Tooltip("The GameObject holding the menu objects")]
+    private GameObject menu;
     [SerializeField]
-    private GameObject score; // The Gameobject holding the score items
+    [Tooltip("The GameObject holding the score objects")]
+    private GameObject score;
 
     void Awake()
     {
