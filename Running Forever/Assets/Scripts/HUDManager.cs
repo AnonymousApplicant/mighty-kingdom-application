@@ -6,22 +6,22 @@ using System;
 
 public class HUDManager : MonoBehaviour
 {
-    public static HUDManager Instance;
+    public static HUDManager Instance; // variable that holds the instance for the singleton setup
 
     [HideInInspector]
-    public bool isPlaying;
+    public bool isPlaying; // Boolean that defines whether the game is being played or not (Start or End game etc)
 
     [SerializeField]
-    private TextMeshProUGUI sScore;
+    private TextMeshProUGUI sScore; // Variable that holds the small score's text
     [SerializeField]
-    private TextMeshProUGUI lScore;
+    private TextMeshProUGUI lScore; // Variable that holds the large score's text
 
     [SerializeField]
-    private GameObject smallScore;
+    private GameObject smallScore; // Variable that holds the small score object
     [SerializeField]
-    private GameObject largeScore;
+    private GameObject largeScore; // Variable that holds the large score object
     [SerializeField]
-    private GameObject retryButton;
+    private GameObject retryButton; // Variable that holds the retry button
 
     void Awake()
     {
@@ -37,20 +37,20 @@ public class HUDManager : MonoBehaviour
             Instance = this;
         }
 
+        // Set target framerate to 60 to reduced unused frames
         Application.targetFrameRate = 60;
-
-        isPlaying = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // Constantly update the score text to the current score
         sScore.SetText(ScoreManager.Instance.currentScore.ToString("F2"));
     }
 
     // Triggered when retry button is pressed
     public void RetryClicked()
     {
+        // Sets static variable to true so play button is pressed immediatly 
         MainMenu.retry = true;
         // Reloads current scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -63,22 +63,9 @@ public class HUDManager : MonoBehaviour
         smallScore.gameObject.SetActive(false);
         largeScore.gameObject.SetActive(true);
         retryButton.gameObject.SetActive(true);
-
+        // Set larger score text the current (end game) score
         lScore.SetText(ScoreManager.Instance.currentScore.ToString("F2"));
-
+        // Set is playing to false so difficulty stops increasing and non-scenic objects stop spawning
         isPlaying = false;
-    }
-
-    // Converts floats into integers and display as time (90 = 01:30)
-    private string TimeConvert(float time)
-    {
-        // Assign minutes and second variables 
-        int minutes = Mathf.FloorToInt(time / 60);
-        int seconds = Mathf.FloorToInt(time - minutes * 60);
-
-        // Format the result string
-        string result = string.Format("{0:00}:{1:00}", minutes, seconds);
-        // Return result
-        return result;
     }
 }

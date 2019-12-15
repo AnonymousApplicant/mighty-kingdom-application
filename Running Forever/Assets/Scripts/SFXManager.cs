@@ -8,19 +8,22 @@ public class SFXManager : MonoBehaviour
 
     public AudioSource music; // Contains the sneaking music audio
 
-    public AudioSource jump;
-    public AudioSource doubleJump;
-    public AudioSource coinCollect;
-    public AudioSource playerPop;
+    public AudioSource jump; // Contains the jumping audio
+    public AudioSource doubleJump; // Contains the doubleJumping audio
+    public AudioSource coinCollect; // Contains the coinCollecting audio
+    public AudioSource playerPop; // Contains the playerPopping audio
 
     void Awake()
     {
+        // Check if the Instance variable is not null and not 'this'
         if (Instance != null && Instance != this)
         {
+            // Destroy gameObject connected to this script if Instance is already defined
             Destroy(this.gameObject);
         }
         else
         {
+            // Assign 'this' to the Instance variable if Instance is null
             Instance = this;
         }
     }

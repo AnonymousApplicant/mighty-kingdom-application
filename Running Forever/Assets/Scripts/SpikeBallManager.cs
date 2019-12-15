@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class SpikeBallManager : MonoBehaviour
 {
-    public static SpikeBallManager Instance;
+    public static SpikeBallManager Instance; // variable that holds the instance for the singleton setup
 
-    public float startingGap;
-    public Vector2 gapRange;
+    public float startingGap; // The starting time to wait for the first object to be introduced
+    public Vector2 gapRange; // The range of time between gaps after the first one
 
-    private float spikeBallTimer;
-    private float spikeBallGap;
+    private float spikeBallTimer; // Timer that keeps track of the time since last spawn
+    private float spikeBallGap; // The variable that keeps track of the current gap
 
     void Awake()
     {
@@ -29,21 +29,29 @@ public class SpikeBallManager : MonoBehaviour
 
     void Start()
     {
+        // Set timer to 0f and set gap to the startingGap
         spikeBallTimer = 0f;
         spikeBallGap = startingGap;
     }
 
     void Update()
     {
+        // Check if the game is currently playing
         if (HUDManager.Instance.isPlaying == true)
         {
+            // Increase timer
             spikeBallTimer += Time.deltaTime;
 
+            // Check if the timer is equal to or more than the gap time
             if (spikeBallTimer >= spikeBallGap)
             {
+                // Get new pooled object
                 GameObject obj = PoolManager.Instance.GetPooledObject("SpikeBalls");
+                // Set new objects position
                 obj.transform.position = new Vector3(16f, Random.Range(2f, -1f), 0f);
+                // Activate object
                 obj.SetActive(true);
+                // Reset timer and pick new random gap time
                 spikeBallTimer = 0f;
                 spikeBallGap = Random.Range(gapRange.x, gapRange.y);
             }

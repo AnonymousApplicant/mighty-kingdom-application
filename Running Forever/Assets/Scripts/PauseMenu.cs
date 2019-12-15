@@ -14,13 +14,15 @@ public class PauseMenu : MonoBehaviour
 
     void Awake()
     {
-        /// Setup singleton: Check if the instance has already been set and is not already this class, if true destroy self, otherwise this is the singleton instance
+        // Check if the Instance variable is not null and not 'this'
         if (Instance != null && Instance != this)
         {
+            // Destroy gameObject connected to this script if Instance is already defined
             Destroy(this.gameObject);
         }
         else
         {
+            // Assign 'this' to the Instance variable if Instance is null
             Instance = this;
         }
     }

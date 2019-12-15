@@ -2,13 +2,15 @@
 
 public class DifficultyManager : MonoBehaviour
 {
-    public static DifficultyManager Instance;
+    public static DifficultyManager Instance; // variable that holds the instance for the singleton setup
 
-    public float difficulty;
+    public float startingDifficulty; // The difficulty at which to start
+    [HideInInspector]
+    public float difficulty; // Variable that holds the current difficulty
     [SerializeField]
-    private float multiplier;
+    private float multiplier; // The multiplier to multiply the difficulty by
 
-    private float timer;
+    private float timer; // Timer to keep track of time
 
     void Awake()
     {
@@ -27,13 +29,17 @@ public class DifficultyManager : MonoBehaviour
 
     void Update()
     {
-        if (HUDManager.Instance.isPlaying)
+        // Check if the game is currently playing
+        if (HUDManager.Instance.isPlaying && difficulty < 20f)
         {
+            // Increase timer
             timer += Time.deltaTime;
 
+            // If timer is greater than or equal to 1(second)
             if (timer >= 1f)
             {
-                if (difficulty < 20f) difficulty = difficulty * multiplier;
+                // Increase difficulty by multiplier and reset timer
+                difficulty = difficulty * multiplier;
                 timer = 0f;
             }
         }
