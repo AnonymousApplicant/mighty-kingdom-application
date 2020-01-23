@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8814977894597799515}
   - component: {fileID: 8814977894597799514}
   - component: {fileID: 3575193308090813350}
-  - component: {fileID: 1329094615209709435}
   m_Layer: 0
   m_Name: Cloud2
   m_TagString: Untagged
@@ -94,24 +93,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f807d5c6a87a4194b803b84e6f2608a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!50 &1329094615209709435
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8814977894597799513}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 0
+  parMultiplier: 0

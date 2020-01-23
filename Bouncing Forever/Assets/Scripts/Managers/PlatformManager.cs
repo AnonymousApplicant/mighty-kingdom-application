@@ -1,16 +1,8 @@
 ﻿using UnityEngine;
 
-public class PlatformManager : MonoBehaviour
+public class PlatformManager : SpawnableManager
 {
     public static PlatformManager Instance; // variable that holds the instance for the singleton setup
-
-    [Tooltip("The starting time to wait for the first object to be introduced")]
-    public float startingGap;
-    [Tooltip("The range of time between gaps after the first one")]
-    public Vector2 gapRange;
-
-    private float platformTimer; // Timer that keeps track of the time since last spawn
-    private float platformGap; // The variable that keeps track of the current gap
 
     void Awake()
     {
@@ -27,23 +19,16 @@ public class PlatformManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        // Set timer to 0f and set gap to the startingGap
-        platformTimer = 0f;
-        platformGap = startingGap;
-    }
-
     void Update()
     {
         // Check if the game is currently playing
         if (HUDManager.Instance.isPlaying == true)
         {
             // Increase timer
-            platformTimer += Time.deltaTime;
+            currentTimer += Time.deltaTime;
 
             // Check if the timer is equal to or more than the gap time
-            if (platformTimer >= platformGap)
+            if (currentTimer >= currentGap)
             {
                 // Get new pooled object
                 GameObject obj = PoolManager.Instance.GetPooledObject("Platforms");
@@ -56,8 +41,8 @@ public class PlatformManager : MonoBehaviour
                 CoinManager.Instance.SpawnPlatformCoins();
 
                 // Reset timer and pick new random gap time
-                platformTimer = 0f;
-                platformGap = Random.Range(gapRange.x, gapRange.y);
+                currentTimer = 0f;
+                currentGap = Random.Range(gapRange.x, gapRange.y);
             }
         }
     }

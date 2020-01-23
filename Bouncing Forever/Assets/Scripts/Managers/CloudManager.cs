@@ -1,16 +1,8 @@
 using UnityEngine;
 
-public class CloudManager : MonoBehaviour
+public class CloudManager : SpawnableManager
 {
     public static CloudManager Instance; // variable that holds the instance for the singleton setup
-
-    [Tooltip("The starting time to wait for the first object to be introduced")]
-    public float startingGap;
-    [Tooltip("The range of time between gaps after the first one")]
-    public Vector2 gapRange;
-
-    private float cloudsTimer; // Timer that keeps track of the time since last spawn
-    private float cloudsGap; // The variable that keeps track of the current gap
 
     void Awake()
     {
@@ -29,10 +21,6 @@ public class CloudManager : MonoBehaviour
 
     void Start()
     {
-        // Set timer to 0f and set gap to the startingGap
-        cloudsTimer = 0f;
-        cloudsGap = startingGap;
-
         // For loop for start of the game object spawns
         for (int i = 0; i < 8; i++)
         {
@@ -48,10 +36,10 @@ public class CloudManager : MonoBehaviour
     void Update()
     {
         // Update the timer based on the (difficulty / startingDifficulty) so at the beginning its 1f
-        cloudsTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / DifficultyManager.Instance.startingDifficulty);
+        currentTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / DifficultyManager.Instance.startingDifficulty);
 
         // Check if the timer is equal to or more than the gap time
-        if (cloudsTimer >= cloudsGap)
+        if (currentTimer >= currentGap)
         {
             // Get new pooled object
             GameObject obj = PoolManager.Instance.GetRandomPooledObject("Clouds");
@@ -60,8 +48,8 @@ public class CloudManager : MonoBehaviour
             // Activate object
             obj.SetActive(true);
             // Reset timer and pick new random gap time
-            cloudsTimer = 0f;
-            cloudsGap = Random.Range(gapRange.x, gapRange.y);
+            currentTimer = 0f;
+            currentGap = Random.Range(gapRange.x, gapRange.y);
         }
     }
 }

@@ -1,16 +1,8 @@
 using UnityEngine;
 
-public class TreeManager : MonoBehaviour
+public class TreeManager : SpawnableManager
 {
     public static TreeManager Instance; // variable that holds the instance for the singleton setup
-
-    [Tooltip("The starting time to wait for the first object to be introduced")]
-    public float startingGap;
-    [Tooltip("The time between gaps after the first one")]
-    public float gapTime;
-
-    private float treeTimer; // Timer that keeps track of the time since last spawn
-    private float treeGap; // The variable that keeps track of the current gap
 
     void Awake()
     {
@@ -29,10 +21,6 @@ public class TreeManager : MonoBehaviour
 
     void Start()
     {
-        // Set timer to 0f and set gap to the startingGap
-        treeTimer = 0f;
-        treeGap = startingGap;
-
         // For loop for start of the game object spawns
         for (int i = 0; i < 2; i++)
         {
@@ -48,10 +36,10 @@ public class TreeManager : MonoBehaviour
     void Update()
     {
         // Update the timer based on the (difficulty / startingDifficulty) so at the beginning its 1f
-        treeTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / 9);
+        currentTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / 9);
 
         // Check if the timer is equal to or more than the gap time
-        if (treeTimer >= treeGap)
+        if (currentTimer >= currentGap)
         {
             // Get new pooled object
             GameObject obj = PoolManager.Instance.GetPooledObject("Trees");
@@ -60,8 +48,8 @@ public class TreeManager : MonoBehaviour
             // Activate object
             obj.SetActive(true);
             // Reset timer and pick new random gap time
-            treeTimer = 0f;
-            treeGap = gapTime;
+            currentTimer = 0f;
+            currentGap = Random.Range(gapRange.x, gapRange.y);
         }
     }
 }

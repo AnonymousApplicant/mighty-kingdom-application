@@ -1,19 +1,11 @@
 ﻿using UnityEngine;
 
-public class CoinManager : MonoBehaviour
+public class CoinManager : SpawnableManager
 {
     public static CoinManager Instance; // variable that holds the instance for the singleton setup
 
     [Tooltip("The score recieved when collecting a coin")]
     public float coinScore;
-
-    [Tooltip("The starting time to wait for the first object to be introduced")]
-    public float startingGap;
-    [Tooltip("The range of time between gaps after the first one")]
-    public Vector2 gapRange;
-
-    private float coinTimer; // Timer that keeps track of the time since last spawn
-    private float coinGap; // The variable that keeps track of the current gap
 
     void Awake()
     {
@@ -30,23 +22,16 @@ public class CoinManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        // Set timer to 0f and set gap to the startingGap
-        coinTimer = 0f;
-        coinGap = startingGap;
-    }
-
     void Update()
     {
         // Check if the game is currently playing
         if (HUDManager.Instance.isPlaying == true)
         {
             // Increase timer
-            coinTimer += Time.deltaTime;
+            currentTimer += Time.deltaTime;
 
             // Check if the timer is equal to or more than the gap time
-            if (coinTimer >= coinGap)
+            if (currentTimer >= currentGap)
             {
                 // Get new pooled object
                 GameObject obj = PoolManager.Instance.GetPooledObject("Coins");
@@ -55,8 +40,8 @@ public class CoinManager : MonoBehaviour
                 // Activate object
                 obj.SetActive(true);
                 // Reset timer and pick new random gap time
-                coinTimer = 0f;
-                coinGap = Random.Range(gapRange.x, gapRange.y);
+                currentTimer = 0f;
+                currentGap = Random.Range(gapRange.x, gapRange.y);
             }
         }
     }
