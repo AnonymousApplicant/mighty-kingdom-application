@@ -18,10 +18,4 @@ public class SpawnableManager : MonoBehaviour
         currentTimer = 0f;
         currentGap = startingGap;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -2,6 +2,7 @@
 
 public class SceneryController : MonoBehaviour
 {
+    [HideInInspector]
     public int parMultiplier;
 
     // If active, constantly move the rigidbodies position based on the difficulty, / parMultiplier for parrelaxing effect

@@ -1058,9 +1058,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a21129321a4b9e9459dd5ed7e9fc6430, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinScore: 5
   startingGap: 0
   gapRange: {x: 2, y: 4}
+  currentTimer: 0
+  currentGap: 0
+  coinScore: 5
 --- !u!82 &605677819
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1572,6 +1574,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingGap: 5
   gapRange: {x: 2, y: 4}
+  currentTimer: 0
+  currentGap: 0
 --- !u!114 &605677826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1601,6 +1605,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingGap: 0
   gapRange: {x: 1.5, y: 5}
+  currentTimer: 0
+  currentGap: 0
 --- !u!114 &605677828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1614,7 +1620,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingGap: 0
-  gapTime: 4
+  gapRange: {x: 4, y: 4}
+  currentTimer: 0
+  currentGap: 0
 --- !u!114 &605677829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1628,7 +1636,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingGap: 0
-  gapTime: 0.75
+  gapRange: {x: 0.5, y: 0.5}
+  currentTimer: 0
+  currentGap: 0
 --- !u!114 &605677830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1658,6 +1668,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingGap: 15
   gapRange: {x: 5, y: 10}
+  currentTimer: 0
+  currentGap: 0
 --- !u!114 &605677832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1672,6 +1684,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingGap: 20
   gapRange: {x: 3, y: 6}
+  currentTimer: 0
+  currentGap: 0
 --- !u!1 &734378533
 GameObject:
   m_ObjectHideFlags: 0
