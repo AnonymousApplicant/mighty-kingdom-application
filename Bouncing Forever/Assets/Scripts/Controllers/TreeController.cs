@@ -1,8 +1,10 @@
 public class TreeController : SceneryController
 {
-    // Set the parMultiplier in base class for parrelaxing effect, get the Rigidbody2D and assign it to the Rigidbody2D variable
+    public int parrelaxDivider;
+
+    // Set the parMultiplier in base class for parrelaxing effect
     void Start()
     {
-        base.parMultiplier = 2;
+        base.parDivider = parrelaxDivider;
     }
 }
