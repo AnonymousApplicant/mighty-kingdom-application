@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float spinRate; // The rate at which the sprite appears to spin
 
+    public Vector3 startPos;
+
     [SerializeField]
     private float jumpHeight; // Variable that defines the jump height
     [SerializeField]
@@ -122,7 +124,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void StartPhysics()
     {
-        rb.WakeUp();
+        rb.isKinematic = false;
     }
 
     /// <summary>
@@ -130,6 +132,11 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void StopPhysics()
     {
-        rb.Sleep();
+        rb.isKinematic = true;
+    }
+
+    public void GoToSpawn()
+    {
+        gameObject.transform.position = startPos;
     }
 }

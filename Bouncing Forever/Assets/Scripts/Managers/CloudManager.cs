@@ -19,18 +19,10 @@ public class CloudManager : SpawnableManager
         }
     }
 
-    void Start()
+    public override void Start()
     {
-        // For loop for start of the game object spawns
-        for (int i = 0; i < 8; i++)
-        {
-            // Get a new pooled object
-            GameObject obj = PoolManager.Instance.GetRandomPooledObject("Clouds");
-            // Place its X position at -16f + (4f * i) so each new object is 4f further than the other
-            obj.transform.position = new Vector3(-16f + (4f * i), Random.Range(1.4f, 4f), 0f);
-            // Acivate the object
-            obj.SetActive(true);
-        }
+        base.Start();
+        InitializePool(8, "Clouds", -15f, 4f, new Vector2(1.4f, 4f));
     }
 
     void Update()
@@ -41,12 +33,7 @@ public class CloudManager : SpawnableManager
         // Check if the timer is equal to or more than the gap time
         if (currentTimer >= currentGap)
         {
-            // Get new pooled object
-            GameObject obj = PoolManager.Instance.GetRandomPooledObject("Clouds");
-            // Set new objects position
-            obj.transform.position = new Vector3(16f, Random.Range(1.4f, 4f), 0f);
-            // Activate object
-            obj.SetActive(true);
+            SpawnObject("Clouds", 16f, new Vector2(1.4f, 4f), true);
             // Reset timer and pick new random gap time
             currentTimer = 0f;
             currentGap = Random.Range(gapRange.x, gapRange.y);

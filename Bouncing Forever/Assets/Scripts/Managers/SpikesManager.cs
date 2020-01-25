@@ -30,12 +30,7 @@ public class SpikesManager : SpawnableManager
             // Check if the timer is equal to or more than the gap time
             if (currentTimer >= currentGap)
             {
-                // Get new pooled object
-                GameObject obj = PoolManager.Instance.GetPooledObject("Spikes");
-                // Set new objects position
-                obj.transform.position = new Vector3(16f, -3.5f, 0f);
-                // Activate object
-                obj.SetActive(true);
+                SpawnObject("Spikes", 16f, new Vector2(-3.5f, 0f), false);
                 // Reset timer and pick new random gap time
                 currentTimer = 0f;
                 currentGap = Random.Range(gapRange.x, gapRange.y);

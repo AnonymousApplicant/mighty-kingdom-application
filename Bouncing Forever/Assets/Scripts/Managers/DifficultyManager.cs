@@ -29,6 +29,11 @@ public class DifficultyManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        difficultyStart();
+    }
+
     void Update()
     {
         // Check if the game is currently playing
@@ -45,5 +50,10 @@ public class DifficultyManager : MonoBehaviour
                 timer = 0f;
             }
         }
+    }
+
+    public void difficultyStart()
+    {
+        difficulty = startingDifficulty;
     }
 }

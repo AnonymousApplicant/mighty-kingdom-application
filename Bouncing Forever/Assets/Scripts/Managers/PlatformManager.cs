@@ -30,12 +30,7 @@ public class PlatformManager : SpawnableManager
             // Check if the timer is equal to or more than the gap time
             if (currentTimer >= currentGap)
             {
-                // Get new pooled object
-                GameObject obj = PoolManager.Instance.GetPooledObject("Platforms");
-                // Set new objects position
-                obj.transform.position = new Vector3(17f, 2.5f, 0f);
-                // Activate object
-                obj.SetActive(true);
+                SpawnObject("Platforms", 17f, new Vector2(2.5f, 0f), false);
 
                 // Execute SpawnPlatformCoins() method so 3 coins spawn above the platform at the same time
                 CoinManager.Instance.SpawnPlatformCoins();

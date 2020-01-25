@@ -15,7 +15,6 @@ public class SpikesController : SpawnableController
         {
             // Play SFX, Deactivate player object and execute EndGame()
             SFXManager.Instance.playerPop.Play();
-            PlayerController.Instance.gameObject.SetActive(false);
             HUDManager.Instance.EndGame();
         }
     }

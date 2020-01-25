@@ -19,34 +19,21 @@ public class TreeManager : SpawnableManager
         }
     }
 
-    void Start()
+    public override void Start()
     {
-        // For loop for start of the game object spawns
-        for (int i = 0; i < 2; i++)
-        {
-            // Get a new pooled object
-            GameObject obj = PoolManager.Instance.GetPooledObject("Trees");
-            // Place its X position at -8f + (12f * i) so each new object is 12f further than the other
-            obj.transform.position = new Vector3(-8f + (12f * i), 0f, 0f);
-            // Acivate the object
-            obj.SetActive(true);
-        }
+        base.Start();
+        InitializePool(2, "Trees", -8f, 12f, new Vector2(0f, 0f));
     }
 
     void Update()
     {
         // Update the timer based on the (difficulty / startingDifficulty) so at the beginning its 1f
-        currentTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / 9);
+        currentTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / DifficultyManager.Instance.startingDifficulty);
 
         // Check if the timer is equal to or more than the gap time
         if (currentTimer >= currentGap)
         {
-            // Get new pooled object
-            GameObject obj = PoolManager.Instance.GetPooledObject("Trees");
-            // Set new objects position
-            obj.transform.position = new Vector3(16f, 0f, 0f);
-            // Activate object
-            obj.SetActive(true);
+            SpawnObject("Trees", 16f, new Vector2(0f, 0f), false);
             // Reset timer and pick new random gap time
             currentTimer = 0f;
             currentGap = Random.Range(gapRange.x, gapRange.y);

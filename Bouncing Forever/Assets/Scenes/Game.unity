@@ -313,7 +313,7 @@ Rigidbody2D:
   m_GravityScale: 5
   m_Material: {fileID: 6200000, guid: 5bf7512095f1d8444b9f646cb45bd108, type: 2}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 2
   m_CollisionDetection: 1
   m_Constraints: 5
 --- !u!114 &182726319
@@ -330,6 +330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 890862108}
   spinRate: 325
+  startPos: {x: -6, y: 9, z: 0}
   jumpHeight: 10
   maxVelocity: 20
 --- !u!4 &182726321
@@ -340,7 +341,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 182726317}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6, y: 9.17, z: 0}
+  m_LocalPosition: {x: -6, y: 9, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children:
   - {fileID: 890862109}
@@ -660,6 +661,7 @@ MonoBehaviour:
   smallScore: {fileID: 257380252}
   largeScore: {fileID: 1196298211}
   retryButton: {fileID: 423947867}
+  spawnableClasses: []
 --- !u!1 &423947867
 GameObject:
   m_ObjectHideFlags: 0

@@ -33,12 +33,7 @@ public class CoinManager : SpawnableManager
             // Check if the timer is equal to or more than the gap time
             if (currentTimer >= currentGap)
             {
-                // Get new pooled object
-                GameObject obj = PoolManager.Instance.GetPooledObject("Coins");
-                // Set new objects position
-                obj.transform.position = new Vector3(16f, Random.Range(2f, -1f), 0f);
-                // Activate object
-                obj.SetActive(true);
+                SpawnObject("Coins", 16f, new Vector2(2f, -1f), false);
                 // Reset timer and pick new random gap time
                 currentTimer = 0f;
                 currentGap = Random.Range(gapRange.x, gapRange.y);

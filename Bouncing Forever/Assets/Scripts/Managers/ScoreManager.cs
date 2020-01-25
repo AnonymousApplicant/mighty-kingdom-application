@@ -32,8 +32,7 @@ public class ScoreManager : MonoBehaviour
 
     void Start()
     {
-        // Set timer to 0f
-        timer = 0f;
+        ScoreStart();
     }
 
     void Update()
@@ -46,5 +45,14 @@ public class ScoreManager : MonoBehaviour
             // Set currentScore to timer * its multiplier, plus the coinScore
             currentScore = (timer * timeMultiplier) + coinScore;
         }
+    }
+
+    public void ScoreStart()
+    {
+        // Set timer to 0f
+        timer = 0f;
+
+        currentScore = 0f;
+        coinScore = 0f;
     }
 }
