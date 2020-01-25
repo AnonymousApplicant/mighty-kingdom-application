@@ -1,16 +1,8 @@
 using UnityEngine;
 
-public class RoadLineManager : MonoBehaviour
+public class RoadLineManager : SpawnableManager
 {
     public static RoadLineManager Instance; // variable that holds the instance for the singleton setup
-
-    [Tooltip("The starting time to wait for the first object to be introduced")]
-    public float startingGap;
-    [Tooltip("The time between gaps after the first one")]
-    public float gapTime;
-
-    private float roadLineTimer; // Timer that keeps track of the time since last spawn
-    private float roadLineGap; // The variable that keeps track of the current gap
 
     void Awake()
     {
@@ -27,41 +19,24 @@ public class RoadLineManager : MonoBehaviour
         }
     }
 
-    void Start()
+    public override void Start()
     {
-        // Set timer to 0f and set gap to the startingGap
-        roadLineTimer = 0f;
-        roadLineGap = startingGap;
-
-        // For loop for start of the game object spawns
-        for (int i = 0; i < 7; i++)
-        {
-            // Get a new pooled object
-            GameObject obj = PoolManager.Instance.GetPooledObject("RoadLines");
-            // Place its X position at -15f + (4.5f * i) so each new object is 4.5f further than the other
-            obj.transform.position = new Vector3(-15f + (4.5f * i), -4.5f, 0f);
-            // Acivate the object
-            obj.SetActive(true);
-        }
+        base.Start();
+        InitializePool(7, "RoadLines", -16f, 4.5f, new Vector2(-4.5f, 0f));
     }
 
     void Update()
     {
         // Update the timer based on the (difficulty / startingDifficulty) so at the beginning its 1f
-        roadLineTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / 9);
+        currentTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / DifficultyManager.Instance.startingDifficulty);
 
         // Check if the timer is equal to or more than the gap time
-        if (roadLineTimer >= roadLineGap)
+        if (currentTimer >= currentGap)
         {
-            // Get new pooled object
-            GameObject obj = PoolManager.Instance.GetPooledObject("RoadLines");
-            // Set new objects position
-            obj.transform.position = new Vector3(16f, -4.5f, 0f);
-            // Activate object
-            obj.SetActive(true);
+            SpawnObject("RoadLines", 16f, new Vector2(-4.5f, 0f), false);
             // Reset timer and pick new random gap time
-            roadLineTimer = 0f;
-            roadLineGap = gapTime;
+            currentTimer = 0f;
+            currentGap = Random.Range(gapRange.x, gapRange.y);
         }
     }
 }

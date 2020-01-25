@@ -209,4 +209,10 @@ public class PoolManager : MonoBehaviour
         // Otherwise return null
         return null;
     }
+
+    public void RemoveDebris()
+    {
+        GetTempList("Coins");
+        // 
+    }
 }
