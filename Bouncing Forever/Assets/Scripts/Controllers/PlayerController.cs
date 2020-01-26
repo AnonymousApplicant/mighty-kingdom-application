@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb; // Variable that holds the Rigidbody2D component
 
+    private Animator animator; // Variable that holds the Animator component
+
     [SerializeField]
     private GameObject sprite; // The sprite object of the player
     [SerializeField]
@@ -40,6 +42,7 @@ public class PlayerController : MonoBehaviour
     {
         // Get the Rigidbody2D component
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponentInChildren<Animator>();
         // StopPhysics so the player wont fall yet
         StopPhysics();
     }
@@ -71,6 +74,17 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
+            else if (Input.GetButtonDown("Jump"))
+            {
+                if (canJump)
+                {
+                    Jump();
+                }
+                else if (canDoubleJump)
+                {
+                    DoubleJump();
+                }
+            }
 
             // Check if the rigidbodies velocity is more than the max, if so set it to max in the same direction
             if (rb.velocity.magnitude > maxVelocity)
@@ -93,6 +107,7 @@ public class PlayerController : MonoBehaviour
         canDoubleJump = true;
         // Play jump SFX
         SFXManager.Instance.jump.Play();
+        animator.SetTrigger("jumped");
     }
 
     /// <summary>
@@ -116,6 +131,7 @@ public class PlayerController : MonoBehaviour
         {
             // Set canJump to true
             canJump = true;
+            animator.SetTrigger("landed");
         }
     }
 
