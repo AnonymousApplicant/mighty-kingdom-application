@@ -212,7 +212,18 @@ public class PoolManager : MonoBehaviour
 
     public void RemoveDebris()
     {
-        GetTempList("Coins");
-        // 
+        string[] removeableObjects = new string[4]{"Coins", "Spikes", "SpikeBalls", "Platforms"};
+
+        foreach (string objectName in removeableObjects)
+        {
+            List<GameObject> tempList = GetTempList(objectName);
+            foreach (GameObject item in tempList)
+            {
+                if (item.activeInHierarchy)
+                {
+                    item.SetActive(false);
+                }
+            }
+        }
     }
 }

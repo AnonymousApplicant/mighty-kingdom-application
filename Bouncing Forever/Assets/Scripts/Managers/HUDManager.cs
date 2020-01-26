@@ -96,6 +96,8 @@ public class HUDManager : MonoBehaviour
 
         SFXManager.Instance.music.Play();
 
+        PoolManager.Instance.RemoveDebris();
+
         DifficultyManager.Instance.difficultyStart();
         ScoreManager.Instance.ScoreStart();
 

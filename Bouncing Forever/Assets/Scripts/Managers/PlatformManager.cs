@@ -18,6 +18,12 @@ public class PlatformManager : SpawnableManager
             Instance = this;
         }
     }
+    
+    public override void Start()
+    {
+        base.Start();
+        HUDManager.Instance.spawnableClasses.Add(this);
+    }
 
     void Update()
     {

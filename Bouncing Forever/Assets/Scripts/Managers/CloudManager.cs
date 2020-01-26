@@ -22,7 +22,7 @@ public class CloudManager : SpawnableManager
     public override void Start()
     {
         base.Start();
-        InitializePool(8, "Clouds", -15f, 4f, new Vector2(1.4f, 4f));
+        InitializePool(5, "Clouds", -15f, 6f, new Vector2(1.4f, 4f));
     }
 
     void Update()

@@ -16,7 +16,6 @@ public class SpawnableManager : MonoBehaviour
     public virtual void Start()
     {
         TimerStart();
-        HUDManager.Instance.spawnableClasses.Add(this);
     }
 
     public void TimerStart()

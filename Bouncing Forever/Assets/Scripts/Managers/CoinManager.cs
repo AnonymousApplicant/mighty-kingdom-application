@@ -22,6 +22,12 @@ public class CoinManager : SpawnableManager
         }
     }
 
+    public override void Start()
+    {
+        base.Start();
+        HUDManager.Instance.spawnableClasses.Add(this);
+    }
+
     void Update()
     {
         // Check if the game is currently playing
