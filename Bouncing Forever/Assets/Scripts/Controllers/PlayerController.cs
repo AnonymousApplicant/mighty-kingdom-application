@@ -149,6 +149,7 @@ public class PlayerController : MonoBehaviour
     public void StopPhysics()
     {
         rb.isKinematic = true;
+        rb.velocity = new Vector2(0f, 0f);
     }
 
     public void GoToSpawn()

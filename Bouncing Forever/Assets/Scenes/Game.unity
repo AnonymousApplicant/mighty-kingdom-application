@@ -1062,6 +1062,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingGap: 0
   gapRange: {x: 2, y: 4}
+  isScenery: 0
+  poolKey: Coins
+  spawnStartPos: 16
+  spawnY: {x: 2, y: -1}
+  isRandomized: 0
   currentTimer: 0
   currentGap: 0
   coinScore: 5
@@ -1576,6 +1581,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingGap: 5
   gapRange: {x: 2, y: 4}
+  isScenery: 0
+  poolKey: Spikes
+  spawnStartPos: 16
+  spawnY: {x: -3.5, y: 0}
+  isRandomized: 0
   currentTimer: 0
   currentGap: 0
 --- !u!114 &605677826
@@ -1607,8 +1617,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingGap: 0
   gapRange: {x: 1.5, y: 5}
+  isScenery: 1
+  poolKey: Clouds
+  spawnStartPos: 16
+  spawnY: {x: 1.4, y: 4}
+  isRandomized: 1
   currentTimer: 0
   currentGap: 0
+  initializeAmount: 5
+  initializeSpawnPos: -15
+  initializeGap: 6
+  initializeY: {x: 1.4, y: 4}
 --- !u!114 &605677828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1623,8 +1642,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingGap: 0
   gapRange: {x: 4, y: 4}
+  isScenery: 1
+  poolKey: Trees
+  spawnStartPos: 16
+  spawnY: {x: 0, y: 0}
+  isRandomized: 0
   currentTimer: 0
   currentGap: 0
+  initializeAmount: 2
+  initializeSpawnPos: -8
+  initializeGap: 12
+  initializeY: {x: 0, y: 0}
 --- !u!114 &605677829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1639,8 +1667,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingGap: 0
   gapRange: {x: 0.5, y: 0.5}
+  isScenery: 1
+  poolKey: RoadLines
+  spawnStartPos: 16
+  spawnY: {x: -4.5, y: 0}
+  isRandomized: 0
   currentTimer: 0
   currentGap: 0
+  initializeAmount: 7
+  initializeSpawnPos: -16
+  initializeGap: 4.5
+  initializeY: {x: -4.5, y: 0}
 --- !u!114 &605677830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1670,6 +1707,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingGap: 15
   gapRange: {x: 5, y: 10}
+  isScenery: 0
+  poolKey: Platforms
+  spawnStartPos: 17
+  spawnY: {x: 2.5, y: 0}
+  isRandomized: 0
   currentTimer: 0
   currentGap: 0
 --- !u!114 &605677832
@@ -1686,6 +1728,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingGap: 20
   gapRange: {x: 3, y: 6}
+  isScenery: 0
+  poolKey: SpikeBalls
+  spawnStartPos: 16
+  spawnY: {x: 2, y: -1}
+  isRandomized: 0
   currentTimer: 0
   currentGap: 0
 --- !u!1 &720114750

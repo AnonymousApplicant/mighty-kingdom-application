@@ -28,25 +28,6 @@ public class CoinManager : SpawnableManager
         HUDManager.Instance.spawnableClasses.Add(this);
     }
 
-    void Update()
-    {
-        // Check if the game is currently playing
-        if (HUDManager.Instance.isPlaying == true)
-        {
-            // Increase timer
-            currentTimer += Time.deltaTime;
-
-            // Check if the timer is equal to or more than the gap time
-            if (currentTimer >= currentGap)
-            {
-                SpawnObject("Coins", 16f, new Vector2(2f, -1f), false);
-                // Reset timer and pick new random gap time
-                currentTimer = 0f;
-                currentGap = Random.Range(gapRange.x, gapRange.y);
-            }
-        }
-    }
-
     /// <summary>
     /// Spawn 3 coins equally seperated at the same height as a platform, called by PlatformManager
     /// </summary>

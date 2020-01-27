@@ -24,23 +24,4 @@ public class SpikesManager : SpawnableManager
         base.Start();
         HUDManager.Instance.spawnableClasses.Add(this);
     }
-
-    void Update()
-    {
-        // Check if the game is currently playing
-        if (HUDManager.Instance.isPlaying == true)
-        {
-            // Update the timer based on the (difficulty / startingDifficulty) so at the beginning its 1f
-            currentTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / DifficultyManager.Instance.startingDifficulty);
-
-            // Check if the timer is equal to or more than the gap time
-            if (currentTimer >= currentGap)
-            {
-                SpawnObject("Spikes", 16f, new Vector2(-3.5f, 0f), false);
-                // Reset timer and pick new random gap time
-                currentTimer = 0f;
-                currentGap = Random.Range(gapRange.x, gapRange.y);
-            }
-        }
-    }
 }

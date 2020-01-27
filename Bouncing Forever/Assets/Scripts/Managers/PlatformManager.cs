@@ -24,27 +24,4 @@ public class PlatformManager : SpawnableManager
         base.Start();
         HUDManager.Instance.spawnableClasses.Add(this);
     }
-
-    void Update()
-    {
-        // Check if the game is currently playing
-        if (HUDManager.Instance.isPlaying == true)
-        {
-            // Increase timer
-            currentTimer += Time.deltaTime;
-
-            // Check if the timer is equal to or more than the gap time
-            if (currentTimer >= currentGap)
-            {
-                SpawnObject("Platforms", 17f, new Vector2(2.5f, 0f), false);
-
-                // Execute SpawnPlatformCoins() method so 3 coins spawn above the platform at the same time
-                CoinManager.Instance.SpawnPlatformCoins();
-
-                // Reset timer and pick new random gap time
-                currentTimer = 0f;
-                currentGap = Random.Range(gapRange.x, gapRange.y);
-            }
-        }
-    }
 }
