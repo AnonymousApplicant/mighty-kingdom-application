@@ -1,5 +1,8 @@
 ﻿using System.IO;
 using UnityEngine;
+#if PLATFORM_ANDROID
+using UnityEngine.Android;
+#endif
 
 /// <summary>
 /// Manages the interaction between Unity and text files
@@ -23,11 +26,11 @@ public class TextFileManager
     /// <param name="fileName">The name of the file/database</param>
     public void CreateFile(string fileName) 
     {
-        string dirPath = Application.dataPath + "/Resources/" + fileName + ".txt";
+        string dirPath = Application.persistentDataPath + "/Resources/" + fileName + ".txt";
 
         if (File.Exists(dirPath) == false) 
         {
-            Directory.CreateDirectory(Application.dataPath + "/Resources");
+            Directory.CreateDirectory(Application.persistentDataPath + "/Resources");
             File.WriteAllText(dirPath, fileName + "\n");
         }
     }
@@ -39,7 +42,7 @@ public class TextFileManager
     /// <returns></returns>
     public string[] ReadFileContents(string fileName) 
     {
-        string dirPath = Application.dataPath + "/Resources/" + fileName + ".txt";
+        string dirPath = Application.persistentDataPath + "/Resources/" + fileName + ".txt";
         string[] tContents = new string[0];
 
         if (File.Exists(dirPath) == true) 
@@ -64,7 +67,7 @@ public class TextFileManager
         // Read file to update logContents
         ReadFileContents(fileName);
 
-        string dirPath = Application.dataPath + "/Resources/" + fileName + ".txt";
+        string dirPath = Application.persistentDataPath + "/Resources/" + fileName + ".txt";
         string tContents = key + "," + value;
         string timestamp = "Time Stamp: " + System.DateTime.Now;
 
@@ -127,7 +130,7 @@ public class TextFileManager
     // public void AddFileLine(string fileName, string fileContents)
     // {
     //     ReadFileContents(fileName);
-    //     string dirPath = Application.dataPath + "/Resources/" + fileName + ".txt";
+    //     string dirPath = Application.persistentDataPath + "/Resources/" + fileName + ".txt";
     //     string tContents = fileContents + "\n";
     //     string timestamp = "Time Stamp: " + System.DateTime.Now;
     //     if (File.Exists(dirPath) == true)
@@ -135,5 +138,5 @@ public class TextFileManager
     //         File.AppendAllText(dirPath, timestamp + " - " + tContents);
     //     }
     // }
-    
+
 }

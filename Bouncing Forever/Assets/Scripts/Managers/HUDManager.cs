@@ -94,7 +94,7 @@ public class HUDManager : MonoBehaviour
         {
             reader.SaveKeyValuePair("highscore", ScoreManager.Instance.currentScore.ToString("F2"), false);
         }
-        
+
         // Set score texts
         highscoreScore.SetText(reader.LoadStringByKey("highscore"));
         lScore.SetText(ScoreManager.Instance.currentScore.ToString("F2"));
@@ -122,6 +122,7 @@ public class HUDManager : MonoBehaviour
         largeScore.gameObject.SetActive(false);
         retryButton.gameObject.SetActive(false);
         highscoreObject.gameObject.SetActive(false);
+        highscoreText.SetText("Highscore");
 
         // Reset the level and score
         PoolManager.Instance.RemoveDebris();
