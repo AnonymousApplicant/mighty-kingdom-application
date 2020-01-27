@@ -8,12 +8,11 @@ public class SpikesController : SpawnableController
         base.rb = GetComponent<Rigidbody2D>();
     }
 
+    // Check if the object collided with the player, if so then run the EndGame method
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Check if the object collided with the player
         if (other.tag == "Player")
         {
-            // Play SFX, Deactivate player object and execute EndGame()
             SFXManager.Instance.playerPop.Play();
             HUDManager.Instance.EndGame();
         }

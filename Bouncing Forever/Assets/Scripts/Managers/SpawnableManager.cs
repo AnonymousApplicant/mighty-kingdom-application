@@ -3,30 +3,34 @@ using System.Collections.Generic;
 
 public class SpawnableManager : MonoBehaviour
 {
+    [Header("Mid-Game Spawn Setings")]
     [Tooltip("The starting time to wait for the first object to be introduced")]
     public float startingGap;
     [Tooltip("The range of time between gaps after the first one")]
     public Vector2 gapRange;
-
-    public bool isScenery;
-
-    public string poolKey;
-
     public float spawnStartPos;
     [Tooltip("The random range to spawn between for the Y value (set X to desired value and Y to 0 if no range needed)")]
     public Vector2 spawnY;
+
+    [Header("Object Information")]
     public bool isRandomized;
+    public bool isScenery;
+    public string poolKey;
 
     [HideInInspector]
     public float currentTimer; // Timer that keeps track of the time since last spawn
     [HideInInspector]
     public float currentGap; // The variable that keeps track of the current gap
 
+    // Run the TimerStart method
     public virtual void Start()
     {
         TimerStart();
     }
 
+    /// <summary>
+    /// Re/Starts the timer for checking the gap
+    /// </summary>
     public void TimerStart()
     {
         // Set timer to 0f and set gap to the startingGap
@@ -34,40 +38,79 @@ public class SpawnableManager : MonoBehaviour
         currentGap = startingGap;
     }
 
-    public void InitializePool(int amountToSpawn, string poolKey, float startPos, float gapLength, Vector2 yVariation, bool isRandom)
+    /// <summary>
+    /// Spawns an object (if possible) from a given pool
+    /// </summary>
+    /// <param name="amountToSpawn">The amount to spawn at the start</param>
+    /// <param name="poolKey">The key to the desired pool to acces</param>
+    /// <param name="startPos">The position to start the object at</param>
+    /// <param name="gapLength">The length to seperate each next object, if spawning less than 2, set this to 0</param>
+    /// <param name="yVariation">The variation in the Y value, if no variation wanted then set the Y value of the Vector2 to 0</param>
+    /// <param name="isRandom">Is the object being spawned part of a pool with varying objects</param>
+    public void SpawnObjects(int amountToSpawn, string poolKey, float startPos, float gapLength, Vector2 yVariation, bool isRandom)
     {
-        // For loop for start of the game object spawns
+        // Repeat based on amountToSpawn
         for (int i = 0; i < amountToSpawn; i++)
         {
-            float yPos = 0;
-            if (yVariation.y == 0f)
+            // Get Spawn data
+            float yPos = GetYPosition(yVariation);
+            GameObject obj = GetObject(isRandom);
+            
+            // Position and spawn object
+            if (gapLength == 0)
             {
-                yPos = yVariation.x;
+                obj.transform.position = new Vector3(startPos, yPos, 0f);
             }
             else
             {
-                yPos = Random.Range(yVariation.x, yVariation.y);
+                obj.transform.position = new Vector3(startPos + (gapLength * i), yPos, 0f);
             }
-
-            GameObject obj = null;
-            if (isRandom == true)
-            {
-                // Get new pooled object
-                obj = PoolManager.Instance.GetRandomPooledObject(poolKey);
-            }
-            else
-            {
-                // Get a new pooled object
-                obj = PoolManager.Instance.GetPooledObject(poolKey);
-            }
-            // Place its X position at -15f + (4.5f * i) so each new object is 4.5f further than the other
-            obj.transform.position = new Vector3(startPos + (gapLength * i), yPos, 0f);
-            // Acivate the object
             obj.SetActive(true);
         }
     }
 
-    public void SpawnObject(string poolKey, float startPos, Vector2 yVariation, bool isRandom)
+    // Check and spawn new objects when needed using the gap variables
+    void Update()
+    {
+        // Check if game is playing, if so increase timer, if timer is greater than the gap length then spawn a new object and reset timer and pick a new gap
+        if (HUDManager.Instance.isPlaying == true)
+        {
+            currentTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / DifficultyManager.Instance.startingDifficulty);
+
+            if (currentTimer >= currentGap)
+            {
+                SpawnObjects(1, poolKey, spawnStartPos, 0, spawnY, isRandomized);
+
+                // If the object being spawned is a platform, run the SpawnPlatformCoins method
+                if (poolKey == "Platforms")
+                {
+                    CoinManager.Instance.SpawnPlatformCoins();
+                }
+
+                currentTimer = 0f;
+                currentGap = Random.Range(gapRange.x, gapRange.y);
+            }
+        }
+        // Else if the object is scenery then keep spawning them
+        else if (isScenery == true)
+        {
+            currentTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / DifficultyManager.Instance.startingDifficulty);
+
+            if (currentTimer >= currentGap)
+            {
+                SpawnObjects(1, poolKey, spawnStartPos, 0, spawnY, isRandomized);
+                currentTimer = 0f;
+                currentGap = Random.Range(gapRange.x, gapRange.y);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Get the float value of the result of the yVariation variable
+    /// </summary>
+    /// <param name="yVariation">The yVariation defined in the inspector</param>
+    /// <returns></returns>
+    float GetYPosition(Vector2 yVariation)
     {
         float yPos = 0;
         if (yVariation.y == 0f)
@@ -78,7 +121,16 @@ public class SpawnableManager : MonoBehaviour
         {
             yPos = Random.Range(yVariation.x, yVariation.y);
         }
+        return yPos;
+    }
 
+    /// <summary>
+    /// Get the GameObject of the result of the poolKey variable
+    /// </summary>
+    /// <param name="isRandom">The poolKey defined in the inspector</param>
+    /// <returns></returns>
+    GameObject GetObject(bool isRandom)
+    {
         GameObject obj = null;
         if (isRandom == true)
         {
@@ -90,46 +142,6 @@ public class SpawnableManager : MonoBehaviour
             // Get a new pooled object
             obj = PoolManager.Instance.GetPooledObject(poolKey);
         }
-        // Set new objects position
-        obj.transform.position = new Vector3(startPos, yPos, 0f);
-        // Activate object
-        obj.SetActive(true);
-    }
-
-    void Update()
-    {
-        if (HUDManager.Instance.isPlaying == true)
-        {
-            // Update the timer based on the (difficulty / startingDifficulty) so at the beginning its 1f
-            currentTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / DifficultyManager.Instance.startingDifficulty);
-
-            // Check if the timer is equal to or more than the gap time
-            if (currentTimer >= currentGap)
-            {
-                SpawnObject(poolKey, spawnStartPos, spawnY, isRandomized);
-                if (poolKey == "Platforms")
-                {
-                    // Execute SpawnPlatformCoins() method so 3 coins spawn above the platform at the same time
-                    CoinManager.Instance.SpawnPlatformCoins();
-                }
-                // Reset timer and pick new random gap time
-                currentTimer = 0f;
-                currentGap = Random.Range(gapRange.x, gapRange.y);
-            }
-        }
-        else if (isScenery == true)
-        {
-            // Update the timer based on the (difficulty / startingDifficulty) so at the beginning its 1f
-            currentTimer += Time.deltaTime * (DifficultyManager.Instance.difficulty / DifficultyManager.Instance.startingDifficulty);
-
-            // Check if the timer is equal to or more than the gap time
-            if (currentTimer >= currentGap)
-            {
-                SpawnObject(poolKey, spawnStartPos, spawnY, isRandomized);
-                // Reset timer and pick new random gap time
-                currentTimer = 0f;
-                currentGap = Random.Range(gapRange.x, gapRange.y);
-            }
-        }
+        return obj;
     }
 }

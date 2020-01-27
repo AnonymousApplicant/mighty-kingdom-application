@@ -6,19 +6,18 @@ public class PlatformManager : SpawnableManager
 
     void Awake()
     {
-        // Check if the Instance variable is not null and not 'this'
+        // Run singleton check/setup
         if (Instance != null && Instance != this)
         {
-            // Destroy gameObject connected to this script if Instance is already defined
             Destroy(this.gameObject);
         }
         else
         {
-            // Assign 'this' to the Instance variable if Instance is null
             Instance = this;
         }
     }
-    
+
+    // Override the base start function, call the base start function, add this class to the spawnableClasses list
     public override void Start()
     {
         base.Start();

@@ -8,15 +8,13 @@ public class CoinController : SpawnableController
         base.rb = GetComponent<Rigidbody2D>();
     }
 
+    // If the player touches a coin, play collection sound, add to coin score and put coin back into pool
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Check if the object collided with the player
         if (other.tag == "Player")
         {
-            // Play SFX, increase ScoreManager's coinScore by the coinScore set in CoinManager
             SFXManager.Instance.coinCollect.Play();
             ScoreManager.Instance.coinScore += CoinManager.Instance.coinScore;
-            // Deactivate the object putting it back into the pool
             gameObject.SetActive(false);
         }
     }

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Manages the interaction between the game and text files
+/// Manages the interaction between Unity and text files
 /// </summary>
 [System.Serializable]
 public class TextFileManager 
@@ -10,96 +10,83 @@ public class TextFileManager
     public string logName; // Variable that contains the name of the log being used (assigned in inspector)
     public string[] logContents; // Keeps track of the logs that have been made to ensure everything is up to date
 
+    // Try create the file (if not already present) and read the contents to initlialize logContents
+    public void Start()
+    {
+        CreateFile(logName);
+        ReadFileContents(logName);
+    }
+
     /// <summary>
-    /// Method used to create the log, will only create the log if it does not already exist
+    /// Used by the reader to create a new file
     /// </summary>
+    /// <param name="fileName">The name of the file/database</param>
     public void CreateFile(string fileName) 
     {
-        // Directory path for log to check
         string dirPath = Application.dataPath + "/Resources/" + fileName + ".txt";
-        // If it does not already exist
+
         if (File.Exists(dirPath) == false) 
         {
-            // Create the directory and write the fileName as first line (will also create text file)
             Directory.CreateDirectory(Application.dataPath + "/Resources");
             File.WriteAllText(dirPath, fileName + "\n");
         }
     }
 
     /// <summary>
-    /// Method used to read file contents
+    /// Used by the reader to read the current file contents
     /// </summary>
+    /// <param name="fileName">The file/database to read from</param>
+    /// <returns></returns>
     public string[] ReadFileContents(string fileName) 
     {
-        // Directory to read txt file from
         string dirPath = Application.dataPath + "/Resources/" + fileName + ".txt";
-        // Initialise tContents array
         string[] tContents = new string[0];
-        // if the file looking for exists, read it and save it to tContents
+
         if (File.Exists(dirPath) == true) 
         {
             tContents = File.ReadAllLines(dirPath);
         }
-        // Update logContents
+        else return null;
+
         logContents = tContents;
-        // Return tContents
         return tContents;
     }
 
-    // Not currently in use //
-    // public void AddFileLine(string fileName, string fileContents)
-    // {
-    //     ReadFileContents(fileName);
-    //     string dirPath = Application.dataPath + "/Resources/" + fileName + ".txt";
-    //     string tContents = fileContents + "\n";
-    //     string timestamp = "Time Stamp: " + System.DateTime.Now;
-    //     if (File.Exists(dirPath) == true)
-    //     {
-    //         File.AppendAllText(dirPath, timestamp + " - " + tContents);
-    //     }
-    // }
-
     /// <summary>
-    /// Method used for saving a new key and value pair
+    /// Used by the reader to save a key and value pair to the file/database, or add a new one if not present
     /// </summary>
+    /// <param name="fileName">The file/database to save to</param>
+    /// <param name="key">The key you wish to save to/add</param>
+    /// <param name="value">The value you wish to save with the key</param>
+    /// <param name="isTimestamped">Do you want it timestamped?</param>
     public void AddKeyValuePair(string fileName, string key, string value, bool isTimestamped) 
     {
         // Read file to update logContents
         ReadFileContents(fileName);
-        // Directory
+
         string dirPath = Application.dataPath + "/Resources/" + fileName + ".txt";
-        // Format tContents
         string tContents = key + "," + value;
-        // Format string
         string timestamp = "Time Stamp: " + System.DateTime.Now;
+
         // If the file exists
         if (File.Exists(dirPath) == true) 
         {
-            bool contentsFound = false; // used to keep track of whether content was found or not
-            // Iterate through list of keys
             for (int i = 0; i < logContents.Length; i++) 
             {
-                // If 1 of the keys is the same
+                // Check if log contains given key, if so replace the value in temp variable
                 if (logContents[i].Contains(key) == true) 
                 {
-                    // Check for if timestamp is true, then update logContents
                     if (isTimestamped == true) 
                     {
                         logContents[i] = timestamp + " - " + tContents;
                     } else {
                         logContents[i] = tContents;
                     }
-                    // Set contents found to true
-                    contentsFound = true;
-                }
-
-                // If content was found
-                if (contentsFound == true) {
-                    // Add logContents to end of log
                     File.WriteAllLines(dirPath, logContents);
-                } else // if the key is not found, create it by appending it to end of log
+                }
+                // Else if the key is not found, create it by appending it to end of log
+                else
                 {
-                    // Check for if timestamp is true, then append text
                     if (isTimestamped == true) 
                     {
                         File.AppendAllText(dirPath, timestamp + " - " + tContents);
@@ -111,16 +98,21 @@ public class TextFileManager
         }
     }
 
-    // Method used to locate a key by a string
+    /// <summary>
+    /// Used by the reader to grab the value from a given key, the reader converts the value based on the method used
+    /// </summary>
+    /// <param name="key">The key corrosponding to the value desired</param>
+    /// <returns></returns>
     public string LocateStringByKey(string key) 
     {
         // Read log to update logContents
         ReadFileContents(logName);
+
         string t = "";
+
         // Iterate through all keys
         foreach (string s in logContents) 
         {
-            // If key matches search
             if (s.Contains(key) == true) 
             {
                 // Split up the line, and get the last item, which will be the value
@@ -128,14 +120,20 @@ public class TextFileManager
                 t = splitString[splitString.Length - 1];
             }
         }
-        // Return the value
         return t;
     }
 
-    // Try create the file and read contents to update logContents
-    public void Start() 
-    {
-        CreateFile(logName);
-        ReadFileContents(logName);
-    }
+    // ** Not currently in use ** //
+    // public void AddFileLine(string fileName, string fileContents)
+    // {
+    //     ReadFileContents(fileName);
+    //     string dirPath = Application.dataPath + "/Resources/" + fileName + ".txt";
+    //     string tContents = fileContents + "\n";
+    //     string timestamp = "Time Stamp: " + System.DateTime.Now;
+    //     if (File.Exists(dirPath) == true)
+    //     {
+    //         File.AppendAllText(dirPath, timestamp + " - " + tContents);
+    //     }
+    // }
+    
 }

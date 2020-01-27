@@ -6,64 +6,65 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance; // variable that holds the instance for the singleton setup
 
     private Rigidbody2D rb; // Variable that holds the Rigidbody2D component
-
     private Animator animator; // Variable that holds the Animator component
 
+    [Header("Spin/Roll Settings")]
     [SerializeField]
-    private GameObject sprite; // The sprite object of the player
+    [Tooltip("The sprite object of the player")]
+    private GameObject sprite;
     [SerializeField]
-    private float spinRate; // The rate at which the sprite appears to spin
+    [Tooltip("The rate at which the sprite appears to spin")]
+    private float spinRate;
 
-    public Vector3 startPos;
+    [Header("Re/Start Information")]
+    [SerializeField]
+    [Tooltip("The position at which the player starts a game/round at")]
+    private Vector3 startPos;
 
+    [Header("Movement Settings")]
     [SerializeField]
-    private float jumpHeight; // Variable that defines the jump height
+    [Tooltip("Variable that defines the jump height")]
+    private float jumpHeight;
     [SerializeField]
-    private float maxVelocity; // Variable that defines the max velocity so players dont shoot way up into the air
+    [Tooltip("Variable that defines the max velocity so players dont shoot way up into the air")]
+    private float maxVelocity;
     private bool canJump; // Boolean that defines whether the player can jump or not
     private bool canDoubleJump;// Boolean that defines whether the player can double jump or not
 
     void Awake()
     {
-        // Check if the Instance variable is not null and not 'this'
+        // Run singleton check/setup
         if (Instance != null && Instance != this)
         {
-            // Destroy gameObject connected to this script if Instance is already defined
             Destroy(this.gameObject);
         }
         else
         {
-            // Assign 'this' to the Instance variable if Instance is null
             Instance = this;
         }
     }
-
+    
+    // Get the rigidbody and animator component and stop player physics
     void Start()
     {
-        // Get the Rigidbody2D component
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-        // StopPhysics so the player wont fall yet
         StopPhysics();
     }
 
     void Update()
     {
-        // Check if the game is currently playing
+        // Check if the game is currently playing and if so "roll" the ball/player
         if (HUDManager.Instance.isPlaying)
         {
-            // Rotate sprite at the spin rate based on difficulty / startingDifficulty so at the beginning its 1f
             sprite.transform.eulerAngles += new Vector3(0f, 0f, -(spinRate * (Time.deltaTime * (DifficultyManager.Instance.difficulty / DifficultyManager.Instance.startingDifficulty))));
 
-            // Check if the touchCount is greater than 0 (any amount of fingers touching screen)
+            // Check if the user is touching the screen, if so check if can jump or doubleJump
             if (Input.touchCount > 0)
             {
-                // Assign temp Touch variable to the first touch
                 Touch touch = Input.GetTouch(0);
-                // If the touch just began
                 if (touch.phase == TouchPhase.Began)
                 {
-                    // Check if canJump else canDoubleJump, execute respective method if yes
                     if (canJump)
                     {
                         Jump();
@@ -72,17 +73,6 @@ public class PlayerController : MonoBehaviour
                     {
                         DoubleJump();
                     }
-                }
-            }
-            else if (Input.GetButtonDown("Jump"))
-            {
-                if (canJump)
-                {
-                    Jump();
-                }
-                else if (canDoubleJump)
-                {
-                    DoubleJump();
                 }
             }
 
@@ -95,41 +85,32 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Makes the player jump up
+    /// Makes the player jump up, resets when player touches the ground
     /// </summary>
     void Jump()
     {
-        // Set canJump to false
         canJump = false;
-        // Add force to rigidbody based on jump height
         rb.AddForce(new Vector2(0f, jumpHeight * 100f));
-        // Set canDoubleJump to true
         canDoubleJump = true;
-        // Play jump SFX
         SFXManager.Instance.jump.Play();
         animator.SetTrigger("jumped");
     }
 
     /// <summary>
-    /// Makes the player jump up again
+    /// Makes the player jump up again whilst mid-air, reset when 1st jump occurs
     /// </summary>
     void DoubleJump()
     {
-        // Set canDoubleJump to false
         canDoubleJump = false;
-        // Add force to rigidbody based on jump height
         rb.AddForce(new Vector2(0f, jumpHeight * 100f));
-        // Play doubleJump SFX
         SFXManager.Instance.doubleJump.Play();
     }
 
-    // Trigger below player object to detect the ground
+    // Check if the player touches the ground/level, re-enable jump capability and trigger animation
     void OnTriggerEnter2D(Collider2D other)
     {
-        // Check the collider was tagged "Level"
         if (other.tag == "Level")
         {
-            // Set canJump to true
             canJump = true;
             animator.SetTrigger("landed");
         }
@@ -152,6 +133,9 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(0f, 0f);
     }
 
+    /// <summary>
+    /// Send the player to the spawn location
+    /// </summary>
     public void GoToSpawn()
     {
         gameObject.transform.position = startPos;

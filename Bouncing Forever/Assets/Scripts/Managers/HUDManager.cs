@@ -10,6 +10,7 @@ public class HUDManager : MonoBehaviour
     [HideInInspector]
     public bool isPlaying; // Boolean that defines whether the game is being played or not (Start or End game etc)
 
+    [Header("Score Text Variables")]
     [SerializeField]
     [Tooltip("Variable that holds the small scores's text")]
     private TextMeshProUGUI sScore;
@@ -23,6 +24,7 @@ public class HUDManager : MonoBehaviour
     [Tooltip("Variable that holds the highscore score object")]
     private TextMeshProUGUI highscoreScore;
 
+    [Header("Score Object Variables")]
     [SerializeField]
     [Tooltip("Variable that holds the highscore text object")]
     private GameObject highscoreObject;
@@ -36,7 +38,9 @@ public class HUDManager : MonoBehaviour
     [Tooltip("Variable that holds the retry button")]
     private GameObject retryButton;
 
-    public TextFileReader reader; // Variable that holds the LogReader script
+    [SerializeField]
+    [Tooltip("Variable that holds Text File Reader component")]
+    private TextFileReader reader; // Variable that holds the LogReader script
     private float bestScore = 0; // Keeps track of the highest score when using txtFileManager
 
     [HideInInspector]
@@ -44,36 +48,28 @@ public class HUDManager : MonoBehaviour
 
     void Awake()
     {
-        // Check if the Instance variable is not null and not 'this'
+        // Run singleton check/setup
         if (Instance != null && Instance != this)
         {
-            // Destroy gameObject connected to this script if Instance is already defined
             Destroy(this.gameObject);
         }
         else
         {
-            // Assign 'this' to the Instance variable if Instance is null
             Instance = this;
         }
-
-        // Set target framerate to 60 to reduced unused frames
-        Application.targetFrameRate = 60;
     }
 
+    // Constantly update the score text to the current score
     void Update()
     {
-        // Constantly update the score text to the current score
         sScore.SetText(ScoreManager.Instance.currentScore.ToString("F2"));
     }
 
-    // Triggered when retry button is pressed
+    /// <summary>
+    /// Runs the StartGame method and puts any objects still spawned in, back into the pool
+    /// </summary>
     public void RetryClicked()
     {
-        // // Sets static variable to true so play button is pressed immediatly 
-        // MainMenu.retry = true;
-        // // Reloads current scene
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
         StartGame();
 
         foreach (SpawnableManager spawnableClass in spawnableClasses)
@@ -82,11 +78,13 @@ public class HUDManager : MonoBehaviour
         }
     }
 
-    // Trigger when the player steps into the finish trigger with all 3 pups
+    /// <summary>
+    /// Triggered by player death, Resets the level and shows the end screen
+    /// </summary>
     public void EndGame()
     {
+        // Load the latest highscore, compare it and or check if there is no highscore
         bestScore = reader.LoadFloatByKey("highscore");
-
         if (ScoreManager.Instance.currentScore > bestScore)
         {
             reader.SaveKeyValuePair("highscore", ScoreManager.Instance.currentScore.ToString("F2"), false);
@@ -96,42 +94,43 @@ public class HUDManager : MonoBehaviour
         {
             reader.SaveKeyValuePair("highscore", ScoreManager.Instance.currentScore.ToString("F2"), false);
         }
-
-        // Set score texts text
+        
+        // Set score texts
         highscoreScore.SetText(reader.LoadStringByKey("highscore"));
+        lScore.SetText(ScoreManager.Instance.currentScore.ToString("F2"));
 
-        // Display UI
+        // Toggle UI
         smallScore.gameObject.SetActive(false);
         largeScore.gameObject.SetActive(true);
         retryButton.gameObject.SetActive(true);
         highscoreObject.gameObject.SetActive(true);
 
+        // Stop the music, player physics and set isPlaying to false
         PlayerController.Instance.GoToSpawn();
         PlayerController.Instance.StopPhysics();
-        // Stop the music playing
         SFXManager.Instance.music.Stop();
-        // Set larger score text the current (end game) score
-        lScore.SetText(ScoreManager.Instance.currentScore.ToString("F2"));
-        // Set is playing to false so difficulty stops increasing and non-scenic objects stop spawning
         isPlaying = false;
     }
 
+    /// <summary>
+    /// Triggered by the retry button, sets the UI up and music, removes debris and resets the difficulty, starts the game and player
+    /// </summary>
     void StartGame()
     {
+        // Toggle UI
         smallScore.gameObject.SetActive(true);
         largeScore.gameObject.SetActive(false);
         retryButton.gameObject.SetActive(false);
         highscoreObject.gameObject.SetActive(false);
 
-        SFXManager.Instance.music.Play();
-
+        // Reset the level and score
         PoolManager.Instance.RemoveDebris();
-
         DifficultyManager.Instance.difficultyStart();
         ScoreManager.Instance.ScoreStart();
 
+        // Start the music, player physics and sets isPlaying to true
+        SFXManager.Instance.music.Play();
         PlayerController.Instance.StartPhysics();
-
         isPlaying = true;
     }
 }
