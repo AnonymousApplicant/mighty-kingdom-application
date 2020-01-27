@@ -17,34 +17,38 @@ public class ScoreManager : MonoBehaviour
 
     void Awake()
     {
-        // Check if the Instance variable is not null and not 'this'
+        // Run singleton check/setup
         if (Instance != null && Instance != this)
         {
-            // Destroy gameObject connected to this script if Instance is already defined
             Destroy(this.gameObject);
         }
         else
         {
-            // Assign 'this' to the Instance variable if Instance is null
             Instance = this;
         }
     }
 
+    // Run the ScoreSart method
     void Start()
     {
-        // Set timer to 0f
-        timer = 0f;
+        ScoreStart();
     }
 
+    // Check if the game is currently playing, if so increase the timer and update the current score
     void Update()
     {
-        // Check if the game is currently playing
         if (HUDManager.Instance.isPlaying)
         {
-            // Increase timer
             timer += Time.deltaTime;
-            // Set currentScore to timer * its multiplier, plus the coinScore
             currentScore = (timer * timeMultiplier) + coinScore;
         }
+    }
+
+    // Re/Starts the score and timer
+    public void ScoreStart()
+    {
+        timer = 0f;
+        currentScore = 0f;
+        coinScore = 0f;
     }
 }

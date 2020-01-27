@@ -28,68 +28,57 @@ public class PoolManager : MonoBehaviour
 
     void Awake()
     {
-        // Check if the Instance variable is not null and not 'this'
+        // Run singleton check/setup
         if (Instance != null && Instance != this)
         {
-            // Destroy gameObject connected to this script if Instance is already defined
             Destroy(this.gameObject);
         }
         else
         {
-            // Assign 'this' to the Instance variable if Instance is null
             Instance = this;
         }
     }
 
-    void OnEnable()
+    // Check and initialize the Object Pool system
+    void Start()
     {
-        // Set pooledObjects to a new Dictionary
         pooledObjects = new Dictionary<string, List<GameObject>>();
-        // For each item in the itemsToPool
+
+        // Foreach object in the itemsToPool variable, set up a seperate pool with the amount specified
         foreach (ObjectPoolItem item in itemsToPool)
         {
-            // Check if objectToPool is not null, if so try objectsToPool
+            // Check if objects to pool is not empty
             if (item.objectToPool != null)
             {
-                // Loop over the amount of times to pool that item
                 for (int i = 0; i < item.amountToPool; i++)
                 {
-                    // Set tempList to the List in the dictionary under the items poolKey
+                    // Get the current list of items in the pool, add this object to it, replace old list
                     List<GameObject> tempList = GetTempList(item.poolKey);
-                    // Instantiate the object
                     GameObject obj = Instantiate(item.objectToPool);
-                    // Deactivate it
                     obj.SetActive(false);
-                    // Add it to the tempList
                     tempList.Add(obj);
-                    // Remove the old list, add the new list
                     pooledObjects.Remove(item.poolKey);
                     pooledObjects.Add(item.poolKey, tempList);
                 }
             }
+            // Else if, check objectS to pool is not 0 (for objects with variations)
             else if (item.objectsToPool.Count != 0)
             {
-                // Foreach item in objectsToPool
+                // Foreach object in the objectsToPool variable, add amount specified of this variation
                 foreach (GameObject go in item.objectsToPool)
                 {
-                    // Instantiate amountToPool per objectsToPool
                     for (int i = 0; i < item.amountToPool; i++)
                     {
-                        // Set tempList to the List in the dictionary under the items poolKey
+                        // Get the current list of items in the pool, add this object to it, replace old list
                         List<GameObject> tempList = GetTempList(item.poolKey);
-                        // Instantiate the object
                         GameObject obj = Instantiate(go);
-                        // Deactivate it
                         obj.SetActive(false);
-                        // Add it to the tempList
                         tempList.Add(obj);
-                        // Remove the old list, add the new list
                         pooledObjects.Remove(item.poolKey);
                         pooledObjects.Add(item.poolKey, tempList);
                     }
                 }
             }
-            // Else return to next item
             else return;
         }
     }
@@ -101,13 +90,9 @@ public class PoolManager : MonoBehaviour
     /// <returns></returns>
     List<GameObject> GetTempList(string poolKey)
     {
-        // Set templist to new list
         List<GameObject> tempList = new List<GameObject>();
-        // Try get the list from the dictionary
         pooledObjects.TryGetValue(poolKey, out tempList);
-        // If the temp list is null make it a new list
         if (tempList == null) tempList = new List<GameObject>();
-        // return tempList
         return tempList;
     }
 
@@ -118,36 +103,26 @@ public class PoolManager : MonoBehaviour
     /// <returns></returns>
     public GameObject GetPooledObject(string poolKey)
     {
-        // Set tempList to the list in the dictionary
+        // Chekc through for any unactive objects
         List<GameObject> tempList = GetTempList(poolKey);
-
-        // For every item in the pool
         for (int i = 0; i < tempList.Count; i++)
         {
-            // Check if it is not currently active
             if (!tempList[i].activeInHierarchy)
             {
-                // if its not active return it
                 return tempList[i];
             }
         }
 
-        // If no active objects found go through each item in the itemsToPool
+        // If no unactive objects found, find the corrosponding pool and check if it can expand, if so expand it by instantiating 1 new object
         foreach (ObjectPoolItem item in itemsToPool)
         {
-            // Check if the poolKey matches the items poolKey and the pool is expandable
             if (item.poolKey == poolKey && item.isExpandable)
             {
-                // Instantiate new object
                 GameObject obj = Instantiate(item.objectToPool);
-                // Deactivate it
                 obj.SetActive(false);
-                // Add it to the tempList
                 tempList.Add(obj);
-                // Remove the old list, add the new list
                 pooledObjects.Remove(item.poolKey);
                 pooledObjects.Add(item.poolKey, tempList);
-                // Return that newly made object
                 return obj;
             }
         }
@@ -157,56 +132,66 @@ public class PoolManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Get a random pooled object from the List<> in the Dictionary corrosponding to the poolKey
+    /// Get a random pooled object from the List<> in the Dictionary corrosponding to the poolKey (Used for pools with variation)
     /// </summary>
     /// <param name="poolKey"></param>
     /// <returns></returns>
     public GameObject GetRandomPooledObject(string poolKey)
     {
-        // Set tempList to the list in the dictionary
         List<GameObject> tempList = GetTempList(poolKey);
-        // Set notActiveList to a new list
         List<GameObject> notActiveList = new List<GameObject>();
 
         // For every item in the pool
         for (int i = 0; i < tempList.Count; i++)
         {
-            // Check if it is not currently active
             if (!tempList[i].activeInHierarchy)
             {
-                // If its not active add it to the notActiveList
                 notActiveList.Add(tempList[i]);
             }
         }
 
-        // If the notActiveList is not 0
+        // If the notActiveList is not 0, return a random object from the list
         if (notActiveList.Count != 0)
         {
-            // Return a random object from the list
             return notActiveList[Mathf.RoundToInt(Random.Range(0, notActiveList.Count))];
         }
 
-        // If no active objects found go through each item in the itemsToPool
+        // If no active objects found, find the corrosponding pool and check if it is expandable, if so expand it by 1 random variation
         foreach (ObjectPoolItem item in itemsToPool)
         {
-            // Check if the poolKey matches the items poolKey and the pool is expandable
             if (item.poolKey == poolKey && item.isExpandable)
             {
-                // Instantiate new object
                 GameObject obj = Instantiate(item.objectsToPool[Mathf.RoundToInt(Random.Range(0, tempList.Count))]);
-                // Deactivate it
                 obj.SetActive(false);
-                // Add it to the tempList
                 tempList.Add(obj);
-                // Remove the old list, add the new list
                 pooledObjects.Remove(item.poolKey);
                 pooledObjects.Add(item.poolKey, tempList);
-                // Return that newly made object
                 return obj;
             }
         }
 
         // Otherwise return null
         return null;
+    }
+
+    /// <summary>
+    /// Removes any objects currently spawned in (besides scenery)
+    /// </summary>
+    public void RemoveDebris()
+    {
+        string[] removeableObjects = new string[4]{"Coins", "Spikes", "SpikeBalls", "Platforms"};
+
+        // Go through each pool and check if any have any active objects, if so deactivat them
+        foreach (string objectName in removeableObjects)
+        {
+            List<GameObject> tempList = GetTempList(objectName);
+            foreach (GameObject item in tempList)
+            {
+                if (item.activeInHierarchy)
+                {
+                    item.SetActive(false);
+                }
+            }
+        }
     }
 }

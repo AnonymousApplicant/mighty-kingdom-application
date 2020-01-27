@@ -1,29 +1,14 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class TreeController : MonoBehaviour
+public class TreeController : SceneryController
 {
-    private Rigidbody2D rb; // Variable that holds the Rigidbody2D component of the object it's attached to
+    [SerializeField]
+    [Tooltip("The amount to divide the speed by to create parrelaxing effect")]
+    private int parrelaxDivider;
 
-    // Get the Rigidbody2D and assign it to the Rigidbody2D variable
+    // Set the parMultiplier in base class for parrelaxing effect
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-    }
-
-    // If active, constantly move the rigidbodies position based on the difficulty, / 2 for parrelaxing effect
-    void Update()
-    {
-        Vector3 position = new Vector3(transform.position.x - ((DifficultyManager.Instance.difficulty / 2) * Time.deltaTime), transform.position.y, 0f);
-        rb.MovePosition(position);
-    }
-
-    // Check if the objects position is off screen, if so deactivate the object putting it back into the pool
-    void FixedUpdate()
-    {
-        if (transform.position.x < -16f)
-        {
-            gameObject.SetActive(false);
-        }
+        base.parDivider = parrelaxDivider;
     }
 }

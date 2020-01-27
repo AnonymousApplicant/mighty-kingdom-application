@@ -6,44 +6,53 @@ public class DifficultyManager : MonoBehaviour
 
     [Tooltip("The difficulty at which to start")]
     public float startingDifficulty;
-    [HideInInspector]
-    public float difficulty; // Variable that holds the current difficulty
     [SerializeField]
     [Tooltip("The multiplier to multiply the difficulty by")]
     private float multiplier;
+    [HideInInspector]
+    public float difficulty; // Variable that holds the current difficulty
 
     private float timer; // Timer to keep track of time
 
     void Awake()
     {
-        // Check if the Instance variable is not null and not 'this'
+        // Run singleton check/setup
         if (Instance != null && Instance != this)
         {
-            // Destroy gameObject connected to this script if Instance is already defined
             Destroy(this.gameObject);
         }
         else
         {
-            // Assign 'this' to the Instance variable if Instance is null
             Instance = this;
         }
     }
 
+    // Run difficultyStart method
+    void Start()
+    {
+        difficultyStart();
+    }
+
+    // If the game is playing, increase the timer and when it goes over 1f, multiply the difficulty and reset
     void Update()
     {
-        // Check if the game is currently playing
         if (HUDManager.Instance.isPlaying && difficulty < 20f)
         {
-            // Increase timer
             timer += Time.deltaTime;
 
-            // If timer is greater than or equal to 1(second)
             if (timer >= 1f)
             {
-                // Increase difficulty by multiplier and reset timer
                 difficulty = difficulty * multiplier;
                 timer = 0f;
             }
         }
+    }
+
+    /// <summary>
+    /// Set the difficulty to the startingDifficulty value
+    /// </summary>
+    public void difficultyStart()
+    {
+        difficulty = startingDifficulty;
     }
 }
