@@ -16,7 +16,16 @@ public class HUDManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Variable that holds the large scores's text")]
     private TextMeshProUGUI lScore;
+    [SerializeField]
+    [Tooltip("Variable that holds the highscore text")]
+    private TextMeshProUGUI highscoreText;
+    [SerializeField]
+    [Tooltip("Variable that holds the highscore score object")]
+    private TextMeshProUGUI highscoreScore;
 
+    [SerializeField]
+    [Tooltip("Variable that holds the highscore text object")]
+    private GameObject highscoreObject;
     [SerializeField]
     [Tooltip("Variable that holds the small scores object")]
     private GameObject smallScore;
@@ -26,6 +35,9 @@ public class HUDManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Variable that holds the retry button")]
     private GameObject retryButton;
+
+    public TextFileReader reader; // Variable that holds the LogReader script
+    private float bestScore = 0; // Keeps track of the highest score when using txtFileManager
 
     [HideInInspector]
     public List<SpawnableManager> spawnableClasses;
@@ -73,10 +85,26 @@ public class HUDManager : MonoBehaviour
     // Trigger when the player steps into the finish trigger with all 3 pups
     public void EndGame()
     {
+        bestScore = reader.LoadFloatByKey("highscore");
+
+        if (ScoreManager.Instance.currentScore > bestScore)
+        {
+            reader.SaveKeyValuePair("highscore", ScoreManager.Instance.currentScore.ToString("F2"), false);
+            highscoreText.SetText("NEW Highscore");
+        }
+        else if (bestScore == 0)
+        {
+            reader.SaveKeyValuePair("highscore", ScoreManager.Instance.currentScore.ToString("F2"), false);
+        }
+
+        // Set score texts text
+        highscoreScore.SetText(reader.LoadStringByKey("highscore"));
+
         // Display UI
         smallScore.gameObject.SetActive(false);
         largeScore.gameObject.SetActive(true);
         retryButton.gameObject.SetActive(true);
+        highscoreObject.gameObject.SetActive(true);
 
         PlayerController.Instance.GoToSpawn();
         PlayerController.Instance.StopPhysics();
@@ -93,6 +121,7 @@ public class HUDManager : MonoBehaviour
         smallScore.gameObject.SetActive(true);
         largeScore.gameObject.SetActive(false);
         retryButton.gameObject.SetActive(false);
+        highscoreObject.gameObject.SetActive(false);
 
         SFXManager.Instance.music.Play();
 
